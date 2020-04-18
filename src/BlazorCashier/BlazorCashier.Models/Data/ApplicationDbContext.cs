@@ -1,4 +1,5 @@
 ﻿using BlazorCashier.Models.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -44,6 +45,5 @@ namespace BlazorCashier.Models.Data
 
             base.OnModelCreating(builder);
         }
-
     }
 }
