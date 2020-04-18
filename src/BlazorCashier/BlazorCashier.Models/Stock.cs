@@ -1,4 +1,4 @@
-﻿namespace BlazorCashier.Shared.DomainModels
+﻿namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data of a stock

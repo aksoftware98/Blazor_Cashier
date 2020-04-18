@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlazorCashier.Shared.DomainModels
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the base data of all domain models

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlazorCashier.Shared.DomainModels
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data of a discount
@@ -13,7 +13,10 @@ namespace BlazorCashier.Shared.DomainModels
         /// <summary>
         /// Default constructor
         /// </summary>
-        public Discount() { }
+        public Discount()
+        {
+            DiscountItems = new List<DiscountItem>(); 
+        }
 
         #endregion
 

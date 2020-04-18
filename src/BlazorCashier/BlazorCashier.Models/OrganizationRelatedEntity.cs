@@ -1,4 +1,7 @@
-﻿namespace BlazorCashier.Shared.DomainModels
+﻿using BlazorCashier.Models.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the base class of domain models that are related to an organization
@@ -24,11 +27,13 @@
         /// <summary>
         /// The system user identifier who created the current object
         /// </summary>
+        [ForeignKey("CreatedUser")]
         public string CreatedById { get; set; }
 
         /// <summary>
         /// The system user identifier who modified the current object
         /// </summary>
+        [ForeignKey("ModifiedUser")]
         public string ModifiedById { get; set; }
 
         #endregion
@@ -40,15 +45,8 @@
         /// </summary>
         public virtual Organization Organization { get; set; }
 
-        /// <summary>
-        /// The related creator system user
-        /// </summary>
-        public virtual SystemUser CreatorUser { get; set; }
-
-        /// <summary>
-        /// The related modifier system user
-        /// </summary>
-        public virtual SystemUser ModifierUser { get; set; }
+        public virtual ApplicationUser CreatedUser { get; set; }
+        public virtual ApplicationUser ModifiedUser { get; set; }
 
         #endregion
     }

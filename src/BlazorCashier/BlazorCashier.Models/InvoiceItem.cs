@@ -1,4 +1,7 @@
-﻿namespace BlazorCashier.Shared.DomainModels
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data for an invoice item
@@ -24,11 +27,13 @@
         /// <summary>
         /// The price of the invoice
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal Price { get; set; }
 
         /// <summary>
         /// The final price of the invoice
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal FinalPrice { get; set; }
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿namespace BlazorCashier.Shared.DomainModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data of a cashier payment
@@ -19,11 +21,13 @@
         /// <summary>
         /// The cash entered to the cashier
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal CashEntered { get; set; }
 
         /// <summary>
         /// The cash change of the entered cash for the payment
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal Change { get; set; }
 
         /// <summary>

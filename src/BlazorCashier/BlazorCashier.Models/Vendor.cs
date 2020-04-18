@@ -1,4 +1,7 @@
-﻿namespace BlazorCashier.Shared.DomainModels
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data of a vendor
@@ -10,7 +13,10 @@
         /// <summary>
         /// Default constructor
         /// </summary>
-        public Vendor() { }
+        public Vendor()
+        {
+            Bills = new List<Bill>();
+        }
 
         #endregion
 
@@ -64,7 +70,7 @@
         /// <summary>
         /// The country of the vendor
         /// </summary>
-        public string Country { get; set; }
+        public string CountryId { get; set; }
 
         /// <summary>
         /// Notes for the vendor
@@ -72,5 +78,10 @@
         public string Note { get; set; }
 
         #endregion
+
+        #region Navigation Properties
+        public ICollection<Bill> Bills { get; set; }
+        public Country Country { get; set; }
+        #endregion 
     }
 }

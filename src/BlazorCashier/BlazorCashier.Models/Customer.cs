@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlazorCashier.Shared.DomainModels
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data of a customer
@@ -12,7 +12,10 @@ namespace BlazorCashier.Shared.DomainModels
         /// <summary>
         /// Default constructor
         /// </summary>
-        public Customer() { }
+        public Customer() 
+        {
+            Invoices = new List<Invoice>(); 
+        }
 
         #endregion
 
@@ -38,6 +41,8 @@ namespace BlazorCashier.Shared.DomainModels
         /// </summary>
         public string Email { get; set; }
 
+        public string CountryId { get; set; }
+
         /// <summary>
         /// The address of the customer
         /// </summary>
@@ -57,7 +62,7 @@ namespace BlazorCashier.Shared.DomainModels
         /// The points of the customer
         /// defaulted to 0
         /// </summary>
-        public double Points { get; set; } = 0;
+        public int Points { get; set; } = 0;
 
         /// <summary>
         /// The barcode of the customer 
@@ -73,6 +78,7 @@ namespace BlazorCashier.Shared.DomainModels
         /// </summary>
         public virtual ICollection<Invoice> Invoices { get; set; }
 
+        public virtual Country Country { get; set; }
         #endregion
     }
 }

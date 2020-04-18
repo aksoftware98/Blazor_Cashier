@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlazorCashier.Shared.DomainModels
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data of a bill
@@ -12,7 +12,10 @@ namespace BlazorCashier.Shared.DomainModels
         /// <summary>
         /// Default constructor
         /// </summary>
-        public Bill() { }
+        public Bill() 
+        {
+            BillItems = new List<BillItem>();
+        }
 
         #endregion
 

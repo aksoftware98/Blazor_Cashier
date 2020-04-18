@@ -1,4 +1,7 @@
-﻿namespace BlazorCashier.Shared.DomainModels
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data of an invoice
@@ -10,7 +13,10 @@
         /// <summary>
         /// Default constructor
         /// </summary>
-        public Invoice() { }
+        public Invoice() 
+        {
+            InvoiceItems = new List<InvoiceItem>(); 
+        }
 
         #endregion
 
@@ -24,27 +30,29 @@
         /// <summary>
         /// The invoice original price
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal OriginalPrice { get; set; }
 
         /// <summary>
         /// The invoice final price
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal FinalPrice { get; set; }
 
         /// <summary>
         /// The discount applied to the invoice if there is any discount
         /// </summary>
-        public int Discount { get; set; }
+        public float Discount { get; set; }
 
         /// <summary>
         /// Indicates whether the invoice is paid by customer's points or not
         /// </summary>
-        public bool PaidWithPoints { get; set; }
+        public int PaidWithPoints { get; set; }
 
         /// <summary>
         /// Points used to pay the invoice with
         /// </summary>
-        public double Points { get; set; }
+        public int Points { get; set; }
 
         /// <summary>
         /// Invoice note
@@ -65,6 +73,7 @@
         /// </summary>
         public virtual Customer Customer { get; set; }
 
+        public virtual ICollection<InvoiceItem> InvoiceItems { get; set; }
         #endregion
     }
 }

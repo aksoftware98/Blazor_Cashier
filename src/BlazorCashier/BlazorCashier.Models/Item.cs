@@ -1,4 +1,6 @@
-﻿namespace BlazorCashier.Shared.DomainModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data of an item
@@ -29,11 +31,13 @@
         /// <summary>
         /// The buying price of the item for the owned organization
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal Price { get; set; }
 
         /// <summary>
         /// The selling price of the item
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal SellingPrice { get; set; }
 
         /// <summary>
@@ -49,7 +53,7 @@
         /// <summary>
         /// The amount of points that an item gives when purchased
         /// </summary>
-        public double Points { get; set; }
+        public int Points { get; set; }
 
         /// <summary>
         /// Additional user-created properties saved as JSON

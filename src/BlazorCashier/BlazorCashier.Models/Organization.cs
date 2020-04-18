@@ -1,7 +1,8 @@
-﻿using System;
+﻿using BlazorCashier.Models.Identity;
+using System;
 using System.Collections.Generic;
 
-namespace BlazorCashier.Shared.DomainModels
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data for an organization
@@ -74,6 +75,8 @@ namespace BlazorCashier.Shared.DomainModels
         /// </summary>
         public string FinancialNumber { get; set; }
 
+        public string CurrencyId { get; set; }
+
         #endregion
 
         #region Navigation Properties
@@ -81,7 +84,9 @@ namespace BlazorCashier.Shared.DomainModels
         /// <summary>
         /// The related system users
         /// </summary>
-        public virtual ICollection<SystemUser> SystemUsers { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
+
+        public virtual Currency Currency { get; set; }
 
         #endregion
     }
