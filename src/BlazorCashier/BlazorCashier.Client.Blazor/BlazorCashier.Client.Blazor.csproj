@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,12 +10,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.0-preview2.20160.5" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.0-preview2.20160.5" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.2.0-preview2.20160.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="3.2.0-preview2.20160.5" />
+    <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="3.2.0-preview2.20160.5" />
   </ItemGroup>
-  <!-- When publishing, swap service-worker.published.js in place of service-worker.js -->
-  <ItemGroup Condition="'$(DesignTimeBuild)' != 'true'">
-    <Content Remove="wwwroot\service-worker.js" />
-    <Content Update="wwwroot\service-worker.published.js" Link="wwwroot\service-worker.js" />
-  </ItemGroup>
-
 </Project>

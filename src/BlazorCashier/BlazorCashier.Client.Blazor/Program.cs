@@ -15,12 +15,11 @@ namespace BlazorCashier.Client.Blazor
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddBaseAddressHttpClient();
-            builder.Services.AddOidcAuthentication(options =>
+            builder.Services.AddMsalAuthentication(options =>
             {
-                // Configure your authentication provider options here.
-                // For more information, see https://aka.ms/blazor-standalone-auth
-                options.ProviderOptions.Authority = "https://login.microsoftonline.com/";
-                options.ProviderOptions.ClientId = "33333333-3333-3333-33333333333333333";
+                var authentication = options.ProviderOptions.Authentication;
+                authentication.Authority = "https://login.microsoftonline.com/common";
+                authentication.ClientId = "273df78f-628c-4feb-ae16-813442e2cedc";
             });
 
             await builder.Build().RunAsync();
