@@ -23,15 +23,18 @@ namespace BlazorCashier.Services.Common
         /// Default constructor
         /// </summary>
         public CountryService(IRepository<Country> countryRepository)
-            => _countryRepository = countryRepository;
+        {
+            _countryRepository = countryRepository;
+        }
 
         #endregion
 
         #region Public Methods
 
         public async Task<CollectionEntityResponse<Country>> GetAllCountriesAsync()
-            => new CollectionEntityResponse<Country>
-                (entities: await _countryRepository.TableNoTracking.ToListAsync());
+        {
+            return new CollectionEntityResponse<Country>(entities: await _countryRepository.TableNoTracking.ToListAsync());
+        }
 
         #endregion
 

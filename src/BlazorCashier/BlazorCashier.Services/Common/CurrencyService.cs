@@ -23,15 +23,18 @@ namespace BlazorCashier.Services.Common
         /// Default constructor
         /// </summary>
         public CurrencyService(IRepository<Currency> currencyRepository)
-            => _currencyRepository = currencyRepository;
+        {
+            _currencyRepository = currencyRepository;
+        }
 
         #endregion
 
         #region Public Methods
 
         public async Task<CollectionEntityResponse<Currency>> GetAllCurrenciesAsync()
-            => new CollectionEntityResponse<Currency>
-                (entities: await _currencyRepository.TableNoTracking.ToListAsync());
+        {
+            return new CollectionEntityResponse<Currency>(entities: await _currencyRepository.TableNoTracking.ToListAsync());
+        }
 
         #endregion
 

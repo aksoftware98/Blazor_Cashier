@@ -5,8 +5,8 @@
         public string FullName { get; set; }
         public string OwnerName { get; set; }
         public string Address { get; set; }
-        public string CurrencyId { get; set; }
-        public string CountryId { get; set; }
+        public CurrencyDetail Currency { get; set; }
+        public CountryDetail Country { get; set; }
         public string City { get; set; }
         public string Phone { get; set; }
         public string Telephone { get; set; }
@@ -15,5 +15,6 @@
         public string Website { get; set; }
         public string ConfirmPassword { get; set; }
         public string FinancialNumber { get; set; }
+
     }
 }

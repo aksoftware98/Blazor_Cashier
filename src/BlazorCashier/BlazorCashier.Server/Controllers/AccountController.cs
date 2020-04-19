@@ -20,25 +20,29 @@ namespace BlazorCashier.Server.Controllers
 
         #region Constructors
 
-        public AccountController(
-            IOrganizationService orgService,
-            ICountryService countryService,
-            ICurrencyService currencyService)
-            => (_orgService, _countryService, _currencyService) 
-             = (orgService, countryService, currencyService);
+        public AccountController(IOrganizationService orgService,
+                                 ICountryService countryService,
+                                 ICurrencyService currencyService)
+        {
+            _orgService = orgService;
+            _countryService = countryService;
+            _currencyService = currencyService; 
+        }
 
         #endregion
 
         #region Actions
-
         [HttpGet]
         public IActionResult Register()
-            => View(InitializeViewModel(new OrganizationViewModel()));
+        {
+            return View(InitializeViewModel(new OrganizationViewModel()));
+        }
 
         [HttpPost]
         public async Task<IActionResult> Register(OrganizationViewModel model)
         {
-            if (!ModelState.IsValid) return View(InitializeViewModel(model));
+            if (!ModelState.IsValid) 
+                return View(InitializeViewModel(model));
 
             var result = await _orgService.AddOrganizationAsync(model.ToOrganizationDetail());
 
