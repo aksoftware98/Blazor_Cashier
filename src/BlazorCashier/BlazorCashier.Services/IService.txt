@@ -1,0 +1,89 @@
+﻿using BlazorCashier.Models;
+using BlazorCashier.Services.Responses;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace BlazorCashier.Services
+{
+    public interface IService<TEntity> where TEntity : BaseEntity
+    {
+        /// <summary>
+        /// Get an entity of type <see cref="TEntity"/> by id
+        /// </summary>
+        /// <param name="id">Id of the entity to retrieve</param>
+        /// <returns>Response containing the entity retrieved</returns>
+        Task<SingleEntityResponse<TEntity>> GetByIdAsync(object id);
+
+        /// <summary>
+        /// Retrieves all entities of type <see cref="TEntity"/>
+        /// </summary>
+        /// <returns>Response containing the entities retrieved</returns>
+        Task<CollectionEntityResponse<TEntity>> GetAllAsync();
+
+        /// <summary>
+        /// Finds entities according to a search text
+        /// Paging is included by adding the page number and the page size
+        /// </summary>
+        /// <param name="searchText">Text to search for</param>
+        /// <param name="pageNumber">The page number</param>
+        /// <param name="pageSize">The page size</param>
+        /// <returns>Response containing entities that matched the search text</returns>
+        Task<CollectionEntityResponse<TEntity>> FindEntitiesAsync(string searchText, int pageNumber = 0, int pageSize = 10);
+
+        /// <summary>
+        /// Adds an entity
+        /// </summary>
+        /// <param name="entity">Entity to add</param>
+        /// <returns>Response containing the entity added</returns>
+        Task<SingleEntityResponse<TEntity>> AddEntityAsync(TEntity entity);
+
+        /// <summary>
+        /// Adds an collection of entities
+        /// </summary>
+        /// <param name="entities">Entities to add</param>
+        /// <returns>Response containing the entities added</returns>
+        Task<CollectionEntityResponse<TEntity>> AddEntitiesAsync(IEnumerable<TEntity> entities);
+
+        /// <summary>
+        /// Updates an entity
+        /// </summary>
+        /// <param name="entity">Entity to update</param>
+        /// <returns>Response containing the entity updated</returns>
+        Task<SingleEntityResponse<TEntity>> UpdateEntityAsync(TEntity entity);
+
+        /// <summary>
+        /// Updates a collection of entities
+        /// </summary>
+        /// <param name="entities">Entities to update</param>
+        /// <returns>Response containing the entities updated</returns>
+        Task<CollectionEntityResponse<TEntity>> UpdateEntitiesAsync(IEnumerable<TEntity> entities);
+
+        /// <summary>
+        /// Attaches an entity
+        /// </summary>
+        /// <param name="entity">Entity to attach</param>
+        /// <returns>Response containing the entity attached</returns>
+        Task<SingleEntityResponse<TEntity>> AttachEntityAsync(TEntity entity);
+
+        /// <summary>
+        /// Attaches a collection of entities
+        /// </summary>
+        /// <param name="entities">Entities to add</param>
+        /// <returns>Response containing the entities attached</returns>
+        Task<CollectionEntityResponse<TEntity>> AttachEntitiesAsync(IEnumerable<TEntity> entities);
+
+        /// <summary>
+        /// Deletes an entity
+        /// </summary>
+        /// <param name="entity">Entity to delete</param>
+        /// <returns>Response containing the entity deleted</returns>
+        Task<ServiceResponse> DeleteEntityAsync(TEntity entity);
+
+        /// <summary>
+        /// Deletes a collection of entity
+        /// </summary>
+        /// <param name="entities">Entities to delete</param>
+        /// <returns>Response containing the entities deleted</returns>
+        Task<ServiceResponse> DeleteEntitiesAsync(IEnumerable<TEntity> entities);
+    }
+}

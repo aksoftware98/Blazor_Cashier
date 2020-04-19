@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="IService.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BlazorCashier.Models\BlazorCashier.Models.csproj" />
     <ProjectReference Include="..\BlazorCashier.Shared\BlazorCashier.Shared.csproj" />
   </ItemGroup>

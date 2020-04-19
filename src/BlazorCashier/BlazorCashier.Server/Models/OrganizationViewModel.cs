@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlazorCashier.Shared.Domain;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -61,6 +62,24 @@ namespace BlazorCashier.Server.Models
 
         public IEnumerable<CountryDetail> Countries { get; set; }
         public IEnumerable<CurrencyDetail> Currencies { get; set; }
+
+        public OrganizationDetail ToOrganizationDetail()
+            => new OrganizationDetail
+            {
+                Address = Address,
+                City = City,
+                FullName = FullName,
+                OwnerName = OwnerName,
+                Phone = Phone,
+                Website = Website,
+                Telephone = Telephone,
+                Email = Email,
+                Password = Password,
+                ConfirmPassword = ConfirmPassword,
+                FinancialNumber = FinancialNumber,
+                CountryId = CountryId,
+                CurrencyId = CurrencyId
+            };
         
     }
 

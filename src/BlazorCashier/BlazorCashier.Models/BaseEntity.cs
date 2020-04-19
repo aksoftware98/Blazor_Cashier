@@ -10,7 +10,7 @@ namespace BlazorCashier.Models
         /// <summary>
         /// Entity identifier
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// The date the current organization was inserted

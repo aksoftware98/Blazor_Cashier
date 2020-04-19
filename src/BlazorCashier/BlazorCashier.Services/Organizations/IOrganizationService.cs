@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using BlazorCashier.Models;
+using BlazorCashier.Services.Responses;
+using BlazorCashier.Shared.Domain;
+using System.Threading.Tasks;
 
 namespace BlazorCashier.Services.Organizations
 {
@@ -7,8 +10,8 @@ namespace BlazorCashier.Services.Organizations
         /// <summary>
         /// Adds a new organization and a user for the organization
         /// </summary>
-        /// <param name="viewModel">View model to use for adding the organization (should be replaced with the actual type once created)</param>
-        /// <returns>True if operation succeeded, false otherwise.. will be replaced with a proper communication type once created</returns>
-        Task<bool> AddOrganizationAsync(object viewModel);
+        /// <param name="orgDetail">Details to use for adding the organization</param>
+        /// <returns>Response containing the organization added and success flag along with an error if there is any</returns>
+        Task<SingleEntityResponse<Organization>> AddOrganizationAsync(OrganizationDetail orgDetail);
     }
 }

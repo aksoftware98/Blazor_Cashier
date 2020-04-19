@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorCashier.Models\BlazorCashier.Models.csproj" />
+    <ProjectReference Include="..\BlazorCashier.Services\BlazorCashier.Services.csproj" />
     <ProjectReference Include="..\BlazorCashier.Shared\BlazorCashier.Shared.csproj" />
   </ItemGroup>
 

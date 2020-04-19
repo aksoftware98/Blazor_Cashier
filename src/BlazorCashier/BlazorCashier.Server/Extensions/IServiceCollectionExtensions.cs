@@ -1,9 +1,14 @@
 ﻿using BlazorCashier.Models.Data;
 using BlazorCashier.Models.Identity;
+using BlazorCashier.Server.Infrastructure;
+using BlazorCashier.Services;
+using BlazorCashier.Services.Common;
+using BlazorCashier.Services.Organizations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -66,6 +71,10 @@ namespace BlazorCashier.Server.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             // Add services here
+            services.AddScoped<IOrganizationService, OrganizationService>();
+            services.AddScoped<ICountryService, CountryService>();
+            services.AddScoped<ICurrencyService, CurrencyService>();
+            services.AddScoped<IWebHostEnvironmentProvider, WebHostEnvironmentProvider>();
 
             return services;
         }
