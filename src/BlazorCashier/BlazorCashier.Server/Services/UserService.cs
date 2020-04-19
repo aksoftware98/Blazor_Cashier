@@ -134,7 +134,6 @@ namespace BlazorCashier.Server.Services
 
             return new UserManagerResponse
             {
-                UserInfo = claims.ToDictionary(c => c.Type, c => c.Value),
                 Message = tokenAsString,
                 IsSuccess = true,
                 ExpireDate = token.ValidTo

@@ -64,7 +64,8 @@ namespace BlazorCashier.Server.Models
         public IEnumerable<CurrencyDetail> Currencies { get; set; }
 
         public OrganizationDetail ToOrganizationDetail()
-            => new OrganizationDetail
+        {
+            return new OrganizationDetail
             {
                 Address = Address,
                 City = City,
@@ -77,10 +78,10 @@ namespace BlazorCashier.Server.Models
                 Password = Password,
                 ConfirmPassword = ConfirmPassword,
                 FinancialNumber = FinancialNumber,
-                CountryId = CountryId,
-                CurrencyId = CurrencyId
+                Country = new Shared.Domain.CountryDetail { Id = CountryId },
+                Currency = new Shared.Domain.CurrencyDetail { Id = CountryId }
             };
-        
+        }
     }
 
     public class CountryDetail

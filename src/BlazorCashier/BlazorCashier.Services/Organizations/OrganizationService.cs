@@ -52,18 +52,21 @@ namespace BlazorCashier.Services.Organizations
         public async Task<SingleEntityResponse<Organization>> AddOrganizationAsync(OrganizationDetail orgDetail)
         {
             // Check the country
-            var country = await _countryRespository.GetByIdAsync(orgDetail.CountryId);
+            var country = await _countryRespository.GetByIdAsync(orgDetail.Country.Id);
 
-            if (country == null) return Error("Country does not exist");
+            if (country == null) 
+                return Error("Country does not exist");
 
             // Check the currency
-            var currency = await _currencyRespository.GetByIdAsync(orgDetail.CurrencyId);
+            var currency = await _currencyRespository.GetByIdAsync(orgDetail.Currency.Id);
 
-            if (currency == null) return Error("Currency does not exist");
+            if (currency == null) 
+                return Error("Currency does not exist");
 
             var userWithSameEmail = await _userManager.FindByEmailAsync(orgDetail.Email);
 
-            if (userWithSameEmail != null) return Error("Email already taken");
+            if (userWithSameEmail != null) 
+                return Error("Email already taken");
 
             // Add the organization
             var org = new Organization
@@ -77,9 +80,9 @@ namespace BlazorCashier.Services.Organizations
                 RegistrationDate = DateTime.UtcNow,
                 Website = orgDetail.Website,
                 Email = orgDetail.Email,
-                Country = orgDetail.CountryId,
+                Country = orgDetail.Country.Id,
                 City = orgDetail.City,
-                CurrencyId = orgDetail.CurrencyId
+                CurrencyId = orgDetail.Currency.Id
             };
 
             await _orgRepository.InsertAsync(org);
@@ -115,7 +118,9 @@ namespace BlazorCashier.Services.Organizations
         #region Helper Methods
 
         private SingleEntityResponse<Organization> Error(string error)
-            => new SingleEntityResponse<Organization>(error: error);
+        {
+            return new SingleEntityResponse<Organization>(error: error);
+        }
 
         #endregion
     }
