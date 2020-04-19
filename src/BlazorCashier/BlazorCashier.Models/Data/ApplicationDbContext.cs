@@ -1,20 +1,21 @@
 ﻿using BlazorCashier.Models.Identity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BlazorCashier.Models.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDbContext
     {
+        #region Constructor
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="options">Options to configure the DbContext</param>
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        }
+        #endregion
 
         #region Tables 
         public DbSet<Bill> Bills { get; set; }
@@ -35,6 +36,12 @@ namespace BlazorCashier.Models.Data
         public DbSet<Item> Items { get; set; }
         #endregion
 
+        #region Public Methods
+
+        /// <summary>
+        /// Does configurations when models are creates
+        /// </summary>
+        /// <param name="builder">Builder to use for doing the configurations</param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // Initialize 
@@ -45,5 +52,16 @@ namespace BlazorCashier.Models.Data
 
             base.OnModelCreating(builder);
         }
+
+        /// <summary>
+        /// Saves all changes made in this context to the database
+        /// </summary>
+        /// <returns>The number of state entries written to the database</returns>
+        public new DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
+        {
+            return base.Set<TEntity>();
+        }
+
+        #endregion
     }
 }

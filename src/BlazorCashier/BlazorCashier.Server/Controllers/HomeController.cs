@@ -51,45 +51,7 @@ namespace BlazorCashier.Server.Controllers
             return View(model); 
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Register(OrganizationViewModel model)
-        {
-            var organization = new Organization
-            {
-                Address = model.Address,
-                City = model.City,
-                Country = model.CountryId,
-                CurrencyId = model.CurrencyId,
-                Email = model.Email,
-                FinancialNumber = model.FinancialNumber,
-                Phone = model.Phone,
-                RegistrationDate = DateTime.UtcNow,
-                TelePhone = model.Telephone,
-                Website = model.Website,
-                OwnerName = model.OwnerName,
-                Name = model.FullName,
-                Id = Guid.NewGuid().ToString(),
-            };
-
-            await _db.Organizations.AddAsync(organization);
-            await _db.SaveChangesAsync();
-
-            var user = new ApplicationUser()
-            {
-                FirstName = model.FullName,
-                LastName = "Admin",
-                ProfilePicture = $"{_env.WebRootPath.Replace("\\\\", "/")}/Images/Users/default.png",
-                Email = model.Email,
-                UserName = model.Email,
-            };
-
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            // Check 
-            await _userManager.AddToRoleAsync(user, "Owner");
-
-            return RedirectToAction("Index"); 
-        }
+        
 
         // DONT CALL THIS ACTION 
         public async Task<IActionResult> HiddenAction()
