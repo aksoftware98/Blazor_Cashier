@@ -1,6 +1,6 @@
 ﻿using BlazorCashier.Models;
 using BlazorCashier.Models.Data;
-using BlazorCashier.Services.Responses;
+using BlazorCashier.Shared;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -31,9 +31,9 @@ namespace BlazorCashier.Services.Common
 
         #region Public Methods
 
-        public async Task<CollectionEntityResponse<Currency>> GetAllCurrenciesAsync()
+        public async Task<EntitiesApiResponse<Currency>> GetAllCurrenciesAsync()
         {
-            return new CollectionEntityResponse<Currency>(entities: await _currencyRepository.TableNoTracking.ToListAsync());
+            return new EntitiesApiResponse<Currency>(entities: await _currencyRepository.TableNoTracking.ToListAsync());
         }
 
         #endregion

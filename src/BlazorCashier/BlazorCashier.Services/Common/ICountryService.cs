@@ -1,5 +1,5 @@
 ﻿using BlazorCashier.Models;
-using BlazorCashier.Services.Responses;
+using BlazorCashier.Shared;
 using System.Threading.Tasks;
 
 namespace BlazorCashier.Services.Common
@@ -10,6 +10,6 @@ namespace BlazorCashier.Services.Common
         /// Retrieves all countries
         /// </summary>
         /// <returns>Response containing entities retrieved</returns>
-        Task<CollectionEntityResponse<Country>> GetAllCountriesAsync();
+        Task<EntitiesApiResponse<Country>> GetAllCountriesAsync();
     }
 }

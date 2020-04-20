@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BlazorCashier.Models
 {
@@ -80,8 +79,8 @@ namespace BlazorCashier.Models
         #endregion
 
         #region Navigation Properties
-        public ICollection<Bill> Bills { get; set; }
-        public Country Country { get; set; }
+        public virtual ICollection<Bill> Bills { get; set; }
+        public virtual Country Country { get; set; }
         #endregion 
     }
 }

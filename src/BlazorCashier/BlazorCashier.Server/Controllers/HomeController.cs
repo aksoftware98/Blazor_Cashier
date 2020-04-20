@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BlazorCashier.Models.Data;
+using BlazorCashier.Models.Identity;
+using BlazorCashier.Server.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using BlazorCashier.Server.Models;
-using BlazorCashier.Models.Data;
-using Microsoft.AspNetCore.Identity;
-using BlazorCashier.Models.Identity;
-using BlazorCashier.Models;
-using Microsoft.AspNetCore.Hosting;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace BlazorCashier.Server.Controllers
 {
@@ -39,37 +35,11 @@ namespace BlazorCashier.Server.Controllers
         {
             return View();
         }
-
-        public IActionResult GetStarted()
-        {
-            var model = new OrganizationViewModel
-            {
-                Countries = _db.Countries.Select(c => new CountryDetail { Id = c.Id, Name = c.Name }),
-                Currencies = _db.Currencies.Select(c => new CurrencyDetail { Id = c.Id, Name = $"{c.Name} ({c.Symbol})" })
-            };
-
-            return View(model); 
-        }
-
         
-
         // DONT CALL THIS ACTION 
         public async Task<IActionResult> HiddenAction()
         {
-            await _roleManager.CreateAsync(new IdentityRole
-            {
-                Name = "Owner",
-            });
-            await _roleManager.CreateAsync(new IdentityRole
-            {
-                Name = "Sales",
-            });
-            await _roleManager.CreateAsync(new IdentityRole
-            {
-                Name = "Supervisor",
-            });
-
-            return RedirectToAction("GetStarted"); 
+            return RedirectToAction("Index"); 
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -33,7 +33,7 @@
                     <option value="">----</option>
                     @foreach (var item in Model.Currencies)
                     {
-                        <option value="@item.Id">@item.Name</option>
+                        <option value="@item.Id">@item.Code</option>
                     }
                 </select>
                 <span asp-validation-for="CurrencyId" class="text-danger"></span>

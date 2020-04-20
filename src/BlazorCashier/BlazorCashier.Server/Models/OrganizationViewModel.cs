@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlazorCashier.Server.Models
 {
@@ -68,7 +66,7 @@ namespace BlazorCashier.Server.Models
             {
                 Address = Address,
                 City = City,
-                FullName = FullName,
+                Name = FullName,
                 OwnerName = OwnerName,
                 Phone = Phone,
                 Website = Website,
@@ -81,17 +79,5 @@ namespace BlazorCashier.Server.Models
                 CurrencyId = CurrencyId
             };
         
-    }
-
-    public class CountryDetail
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class CurrencyDetail
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
     }
 }

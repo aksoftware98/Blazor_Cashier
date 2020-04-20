@@ -38,7 +38,7 @@ namespace BlazorCashier.Models
         /// <summary>
         /// The country of the organization
         /// </summary>
-        public string Country { get; set; }
+        public string CountryId { get; set; }
 
         /// <summary>
         /// The phone of the organization
@@ -87,6 +87,8 @@ namespace BlazorCashier.Models
         public virtual ICollection<ApplicationUser> Users { get; set; }
 
         public virtual Currency Currency { get; set; }
+
+        public virtual Country Country { get; set; }
 
         #endregion
     }

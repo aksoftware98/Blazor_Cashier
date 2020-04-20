@@ -19,7 +19,7 @@ namespace BlazorCashier.Models
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 
-       public ApplicationUser User { get; set; }
+       public virtual ApplicationUser User { get; set; }
 
         public string UserId { get; set; }
  

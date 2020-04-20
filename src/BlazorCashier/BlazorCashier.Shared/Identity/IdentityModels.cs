@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace BlazorCashier.Shared.Identity
 {
     public class RegisterRequest
     {
-
         [Required]
         [StringLength(50)]
         [EmailAddress]
@@ -67,7 +65,6 @@ namespace BlazorCashier.Shared.Identity
 
     public class LoginRequest
     {
-
         [Required]
         [StringLength(50)]
         [EmailAddress]
@@ -76,6 +73,5 @@ namespace BlazorCashier.Shared.Identity
         [Required]
         [StringLength(50, MinimumLength = 5)]
         public string Password { get; set; }
-
     }
 }

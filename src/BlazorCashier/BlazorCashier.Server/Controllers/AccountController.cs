@@ -1,10 +1,13 @@
-﻿using BlazorCashier.Models.Data;
-using BlazorCashier.Server.Models;
+﻿using BlazorCashier.Server.Models;
+using BlazorCashier.Services.Account;
 using BlazorCashier.Services.Common;
 using BlazorCashier.Services.Organizations;
+using BlazorCashier.Shared.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using BlazorCashier.Shared;
+using BlazorCashier.Shared.Domain;
 
 namespace BlazorCashier.Server.Controllers
 {
@@ -15,6 +18,7 @@ namespace BlazorCashier.Server.Controllers
         private readonly IOrganizationService _orgService;
         private readonly ICountryService _countryService;
         private readonly ICurrencyService _currencyService;
+        private readonly IUserService _userService;
 
         #endregion
 
@@ -22,34 +26,54 @@ namespace BlazorCashier.Server.Controllers
 
         public AccountController(IOrganizationService orgService,
                                  ICountryService countryService,
-                                 ICurrencyService currencyService)
+                                 ICurrencyService currencyService,
+                                 IUserService userService)
         {
             _orgService = orgService;
             _countryService = countryService;
-            _currencyService = currencyService; 
+            _currencyService = currencyService;
+            _userService = userService;
         }
 
         #endregion
 
         #region Actions
-        [HttpGet]
-        public IActionResult Register()
+
+        [Route("api/auth/login")]
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody]LoginRequest request)
         {
-            return View(InitializeViewModel(new OrganizationViewModel()));
+            if (!ModelState.IsValid) return BadRequest();
+
+            var loginResponse = await _userService.LoginAsync(request);
+
+            return loginResponse.IsSuccess switch
+            {
+                false => BadRequest(new IdentityApiResponse(loginResponse.Error)),
+                true => Ok(loginResponse)
+            };
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Register()
+        {
+            var countries = await _countryService.GetAllCountriesAsync();
+            var currencies = await _currencyService.GetAllCurrenciesAsync();
+            return View(await InitializeViewModel(new OrganizationViewModel()));
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(OrganizationViewModel model)
         {
             if (!ModelState.IsValid) 
-                return View(InitializeViewModel(model));
+                return View(await InitializeViewModel(model));
 
             var result = await _orgService.AddOrganizationAsync(model.ToOrganizationDetail());
 
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError("", result.Error);
-                return View(InitializeViewModel(model));
+                return View(await InitializeViewModel(model));
             }
 
             return RedirectToAction("Index", "Home");
@@ -61,8 +85,8 @@ namespace BlazorCashier.Server.Controllers
 
         public async Task<OrganizationViewModel> InitializeViewModel(OrganizationViewModel viewModel)
         {
-            viewModel.Countries = (await _countryService.GetAllCountriesAsync()).Entities.Select(c => new CountryDetail { Id = c.Id, Name = c.Name });
-            viewModel.Currencies = (await _currencyService.GetAllCurrenciesAsync()).Entities.Select(c => new CurrencyDetail { Id = c.Id, Name = c.Name });
+            viewModel.Countries = (await _countryService.GetAllCountriesAsync()).Entities.Select(c => new CountryDetail(c.Id, c.Code, c.Name));
+            viewModel.Currencies = (await _currencyService.GetAllCurrenciesAsync()).Entities.Select(c => new CurrencyDetail(c.Id, c.Code));
             return viewModel;
         }
 

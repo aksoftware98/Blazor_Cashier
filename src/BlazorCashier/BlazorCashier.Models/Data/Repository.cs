@@ -33,14 +33,14 @@ namespace BlazorCashier.Models.Data
         /// <summary>
         /// Gets a table
         /// </summary>
-        public IQueryable<TEntity> Table => _entities;
+        public IQueryable<TEntity> Table => Entities;
 
         /// <summary>
         /// Gets a table with "no tracking" enabled (EF feature)
         /// Used for operations that involve read-only
         /// Good for search optimization
         /// </summary>
-        public IQueryable<TEntity> TableNoTracking => _entities.AsNoTracking();
+        public IQueryable<TEntity> TableNoTracking => Entities.AsNoTracking();
 
         /// <summary>
         /// Gets an entity set

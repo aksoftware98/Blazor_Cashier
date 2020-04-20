@@ -1,6 +1,6 @@
 ﻿using BlazorCashier.Models;
 using BlazorCashier.Models.Data;
-using BlazorCashier.Services.Responses;
+using BlazorCashier.Shared;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -31,9 +31,10 @@ namespace BlazorCashier.Services.Common
 
         #region Public Methods
 
-        public async Task<CollectionEntityResponse<Country>> GetAllCountriesAsync()
+        public async Task<EntitiesApiResponse<Country>> GetAllCountriesAsync()
         {
-            return new CollectionEntityResponse<Country>(entities: await _countryRepository.TableNoTracking.ToListAsync());
+            var countries = await _countryRepository.TableNoTracking.ToListAsync();
+            return new EntitiesApiResponse<Country>(countries);
         }
 
         #endregion

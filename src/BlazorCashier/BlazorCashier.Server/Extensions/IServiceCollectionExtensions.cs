@@ -1,14 +1,15 @@
 ﻿using BlazorCashier.Models.Data;
 using BlazorCashier.Models.Identity;
 using BlazorCashier.Server.Infrastructure;
+using BlazorCashier.Server.Services;
 using BlazorCashier.Services;
+using BlazorCashier.Services.Account;
 using BlazorCashier.Services.Common;
 using BlazorCashier.Services.Organizations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +22,7 @@ namespace BlazorCashier.Server.Extensions
         public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
+                options.UseLazyLoadingProxies().UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("BlazorCashier.Server")));
 
             services.AddScoped<IDbContext, ApplicationDbContext>();
@@ -37,7 +38,9 @@ namespace BlazorCashier.Server.Extensions
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequiredLength = 5;
-                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -74,6 +77,7 @@ namespace BlazorCashier.Server.Extensions
             services.AddScoped<IOrganizationService, OrganizationService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICurrencyService, CurrencyService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IWebHostEnvironmentProvider, WebHostEnvironmentProvider>();
 
             return services;

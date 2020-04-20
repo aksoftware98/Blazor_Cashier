@@ -2,10 +2,9 @@
 using BlazorCashier.Models.Data;
 using BlazorCashier.Models.Extensions;
 using BlazorCashier.Models.Identity;
-using BlazorCashier.Services.Responses;
+using BlazorCashier.Shared;
 using BlazorCashier.Shared.Domain;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,7 +48,7 @@ namespace BlazorCashier.Services.Organizations
         /// </summary>
         /// <param name="orgDetail">Details to use for adding the organization</param>
         /// <returns>Response containing the organization added and success flag along with an error if there is any</returns>
-        public async Task<SingleEntityResponse<Organization>> AddOrganizationAsync(OrganizationDetail orgDetail)
+        public async Task<EntityApiResponse<Organization>> AddOrganizationAsync(OrganizationDetail orgDetail)
         {
             // Check the country
             var country = await _countryRespository.GetByIdAsync(orgDetail.CountryId);
@@ -69,7 +68,7 @@ namespace BlazorCashier.Services.Organizations
             var org = new Organization
             {
                 Address = orgDetail.Address,
-                Name = orgDetail.FullName,
+                Name = orgDetail.Name,
                 Phone = orgDetail.Phone,
                 TelePhone = orgDetail.Telephone,
                 OwnerName = orgDetail.OwnerName,
@@ -77,7 +76,7 @@ namespace BlazorCashier.Services.Organizations
                 RegistrationDate = DateTime.UtcNow,
                 Website = orgDetail.Website,
                 Email = orgDetail.Email,
-                Country = orgDetail.CountryId,
+                CountryId = orgDetail.CountryId,
                 City = orgDetail.City,
                 CurrencyId = orgDetail.CurrencyId
             };
@@ -87,14 +86,15 @@ namespace BlazorCashier.Services.Organizations
             // Add a user with role "Owner"
             var user = new ApplicationUser
             {
-                FirstName = orgDetail.FullName,
+                FirstName = orgDetail.Name,
                 LastName = "Admin",
                 Email = orgDetail.Email,
                 UserName = orgDetail.Email,
-                ProfilePicture = $"{_hostProvider.WebRootPath.Replace("\\\\", "/")}/Images/Users/default.png"
+                ProfilePicture = $"{_hostProvider.WebRootPath.Replace("\\\\", "/")}/Images/Users/default.png",
+                OrganizationId = org.Id
             };
 
-            var createUserResult = await _userManager.CreateAsync(user);
+            var createUserResult = await _userManager.CreateAsync(user, orgDetail.Password);
             
             if (!createUserResult.Succeeded)
             {
@@ -107,15 +107,35 @@ namespace BlazorCashier.Services.Organizations
 
             await _userManager.AddToRoleAsync(user, "Owner");
 
-            return new SingleEntityResponse<Organization>(entity: org);
+            return new EntityApiResponse<Organization>(entity: org);
+        }
+
+        /// <summary>
+        /// Retrieves the organization details
+        /// </summary>
+        /// <param name="organizationId">Organization id to get the data for</param>
+        /// <returns>Response containing the organization details</returns>
+        public async Task<EntityApiResponse<OrganizationDetail>> GetOrganizationDetailsAsync(string organizationId)
+        {
+            if (string.IsNullOrEmpty(organizationId))
+                throw new ArgumentNullException(nameof(organizationId));
+
+            var org = await _orgRepository.GetByIdAsync(organizationId);
+
+            if (org is null)
+                return new EntityApiResponse<OrganizationDetail>
+                    (error: "Organization does not exist");
+
+            return new EntityApiResponse<OrganizationDetail>
+                (entity: new OrganizationDetail(org));
         }
 
         #endregion
 
         #region Helper Methods
 
-        private SingleEntityResponse<Organization> Error(string error)
-            => new SingleEntityResponse<Organization>(error: error);
+        private EntityApiResponse<Organization> Error(string error)
+            => new EntityApiResponse<Organization>(error: error);
 
         #endregion
     }

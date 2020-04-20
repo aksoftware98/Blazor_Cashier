@@ -1,8 +1,5 @@
 ﻿using BlazorCashier.Models;
-using BlazorCashier.Services.Responses;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using BlazorCashier.Shared;
 using System.Threading.Tasks;
 
 namespace BlazorCashier.Services.Common
@@ -13,6 +10,6 @@ namespace BlazorCashier.Services.Common
         /// Retrieves all currencies
         /// </summary>
         /// <returns>Response containing entities retrieved</returns>
-        Task<CollectionEntityResponse<Currency>> GetAllCurrenciesAsync();
+        Task<EntitiesApiResponse<Currency>> GetAllCurrenciesAsync();
     }
 }
