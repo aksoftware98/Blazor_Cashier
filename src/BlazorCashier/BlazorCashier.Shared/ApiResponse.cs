@@ -41,7 +41,6 @@ namespace BlazorCashier.Shared
     {
         public string AccessToken { get; }
         public DateTime ExpireDate { get; }
-        public Dictionary<string, string> UserInfo { get; }
 
         public IdentityApiResponse(string error) : base(error)
         {
@@ -50,12 +49,10 @@ namespace BlazorCashier.Shared
 
         public IdentityApiResponse(
             string accessToken,
-            DateTime expireDate,
-            Dictionary<string, string> userInfo)
+            DateTime expireDate)
         {
             AccessToken = accessToken;
             ExpireDate = expireDate;
-            UserInfo = userInfo;
         }
     }
 }

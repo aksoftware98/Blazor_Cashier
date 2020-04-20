@@ -109,8 +109,7 @@ namespace BlazorCashier.Server.Services
 
             return new IdentityApiResponse(
                 tokenAsString, 
-                token.ValidTo, 
-                token.Claims.ToDictionary(c => c.Type, c => c.Value));
+                token.ValidTo);
         }
     }
 }
