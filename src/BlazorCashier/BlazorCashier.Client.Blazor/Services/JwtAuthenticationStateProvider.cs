@@ -1,4 +1,5 @@
-﻿using BlazorCashier.Shared.Identity;
+﻿using BlazorCashier.Shared;
+using BlazorCashier.Shared.Identity;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
@@ -25,9 +26,9 @@ namespace BlazorCashier.Client.Blazor.Services
         {
             if(await _localStorage.ContainKeyAsync(USER_KEY))
             {
-                var userToken = await _localStorage.GetItemAsync<UserManagerResponse>(USER_KEY);
+                var userToken = await _localStorage.GetItemAsync<IdentityApiResponse>(USER_KEY);
                 // Get the user claims 
-                var claims = ExtractUserClaims(userToken.Message);
+                var claims = ExtractUserClaims(userToken.AccessToken);
 
                 // TODO: Refresh the token if it's expired 
                 var claimsIdentity = new ClaimsIdentity(claims, "JwtBearerToken");
@@ -44,7 +45,7 @@ namespace BlazorCashier.Client.Blazor.Services
         /// </summary>
         /// <param name="user">User object that contains the access token and it's expiration date</param>
         /// <returns></returns>
-        public async Task SignUserInAsync(UserManagerResponse user)
+        public async Task SignUserInAsync(IdentityApiResponse user)
         {
             if(!(await _localStorage.ContainKeyAsync(USER_KEY)))
             {

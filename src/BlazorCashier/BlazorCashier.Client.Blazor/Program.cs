@@ -13,7 +13,7 @@ namespace BlazorCashier.Client.Blazor
 {
     public class Program
     {
-        const string API_URL = "https://localhost:44301/api"; 
+        const string API_URL = "https://localhost:44306/api"; 
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);

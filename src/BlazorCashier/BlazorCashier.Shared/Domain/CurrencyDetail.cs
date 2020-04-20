@@ -10,5 +10,10 @@
             Id = id;
             Code = code;
         }
+
+        public CurrencyDetail()
+        {
+
+        }
     }
 }

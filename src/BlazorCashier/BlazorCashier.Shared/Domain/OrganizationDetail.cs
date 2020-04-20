@@ -17,9 +17,7 @@ namespace BlazorCashier.Shared.Domain
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public string FinancialNumber { get; set; }
-        public string CountryId { get; set; }
-        public string CurrencyId { get; set; }
-
+        
         public OrganizationDetail()
         {
 

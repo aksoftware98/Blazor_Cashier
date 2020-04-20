@@ -79,7 +79,7 @@ namespace BlazorCashier.Services.Organizations
                 RegistrationDate = DateTime.UtcNow,
                 Website = orgDetail.Website,
                 Email = orgDetail.Email,
-                Country = orgDetail.CountryId,
+                CountryId = orgDetail.Country.Id,
                 City = orgDetail.City,
                 CurrencyId = orgDetail.Currency.Id
             };
@@ -137,8 +137,10 @@ namespace BlazorCashier.Services.Organizations
 
         #region Helper Methods
 
-        private SingleEntityResponse<Organization> Error(string error)
-            => new SingleEntityResponse<Organization>(error: error);
+        private EntityApiResponse<Organization> Error(string error)
+        {
+            return new EntityApiResponse<Organization>(error: error);
+        }
 
         #endregion
     }

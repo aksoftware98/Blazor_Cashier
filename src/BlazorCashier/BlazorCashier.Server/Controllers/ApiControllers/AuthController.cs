@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlazorCashier.Server.Services;
+using BlazorCashier.Services.Account;
+using BlazorCashier.Shared;
 using BlazorCashier.Shared.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,21 +16,23 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
     public class AuthController : ControllerBase
     {
 
-        private readonly UserService _userSerivce;
-        public AuthController(UserService userService)
+        private readonly IUserService _userService;
+        public AuthController(IUserService userService)
         {
-            _userSerivce = userService;
+            _userService = userService;
         }
 
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody]LoginRequest model)
+
+        [Route("login")]
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody]LoginRequest request)
         {
-            var result = await _userSerivce.LoginUserAsync(model);
-            if (result.IsSuccess)
-                return Ok(result);
+            var loginResponse = await _userService.LoginAsync(request);
 
-            return BadRequest("There is something wrong"); 
+            if (loginResponse.IsSuccess)
+                return Ok(loginResponse);
+
+            return BadRequest(new IdentityApiResponse(loginResponse.Error));
         }
-
     }
 }

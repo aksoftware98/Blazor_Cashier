@@ -2,24 +2,26 @@
 @layout AuthenticationLayout
 
 @inject IAuthenticationService authenticationService
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject NavigationManager navigationManager
 
 <h2 class="main-title">Welcome to Blazor Cashier</h2>
-<h2 class="main-title">@message</h2>
 
 <div class="row">
     <div class="col-12">
+
         <div class="form-group">
             <label>Email</label>
-            <DxTextBox @bind-Text="email"/>
+            <DxTextBox @bind-Text="email" />
         </div>
         <div class="form-group">
             <label>Password</label>
-            <DxTextBox Password="true" @bind-Text="password"/>
+            <DxTextBox Password="true" @bind-Text="password" />
         </div>
         <hr />
-        <DxButton RenderStyle="@ButtonRenderStyle.Primary" RenderStyleMode="@ButtonRenderStyleMode.Contained" 
+        <DxButton RenderStyle="@ButtonRenderStyle.Primary" RenderStyleMode="@ButtonRenderStyleMode.Contained"
                   CssClass="button-width" Text="Login" Enabled="!isBusy"
-                  Click="async (e) => await LoginUserAsync()"/>
+                  Click="async (e) => await LoginUserAsync()" />
         <br />
         <a href="/authentication/forgetpassword" class="external-link">Forget your password?</a>
     </div>
@@ -27,23 +29,38 @@
 
 @code {
 
+    [CascadingParameter] private Task<AuthenticationState> authState { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var state = await authState;
+        if (state.User.Identity.IsAuthenticated)
+            navigationManager.NavigateTo("/");
+    }
+
     bool isBusy = false;
     string email = string.Empty;
     string password = string.Empty;
 
-    string message = "";
+    string message = string.Empty; 
 
     async Task LoginUserAsync()
     {
+
+        var jwtAuthStateProvider = (JwtAuthenticationStateProvider)authenticationStateProvider;
+
         isBusy = true;
         var result = await authenticationService.AuthenticateUserAsync(email, password);
 
-        if (result.Item2 != null)
+        if (result.Item2.IsSuccess)
         {
-            message = result.Item2.Message;
+            // Sign in the user 
+            await jwtAuthStateProvider.SignUserInAsync(result.Item2);
+            navigationManager.NavigateTo("/");
         }
         else
-            message = "Fuck!!";
+            message = result.Item2.Error;
+
         isBusy = false;
     }
 }

@@ -39,8 +39,13 @@ namespace BlazorCashier.Shared
     
     public class IdentityApiResponse : ApiResponse
     {
-        public string AccessToken { get; }
-        public DateTime ExpireDate { get; }
+        public string AccessToken { get; set; }
+        public DateTime ExpireDate { get; set; }
+
+        public IdentityApiResponse()
+        {
+
+        }
 
         public IdentityApiResponse(string error) : base(error)
         {

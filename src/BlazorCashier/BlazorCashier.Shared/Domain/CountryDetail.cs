@@ -12,5 +12,10 @@
             Code = code;
             Name = name;
         }
+
+        public CountryDetail()
+        {
+
+        }
     }
 }

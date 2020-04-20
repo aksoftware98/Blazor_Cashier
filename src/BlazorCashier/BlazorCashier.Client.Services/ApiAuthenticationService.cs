@@ -1,5 +1,6 @@
 ﻿using AKSoftware.WebApi.Client;
 using BlazorCashier.Client.Services.Interfaces;
+using BlazorCashier.Shared;
 using BlazorCashier.Shared.Identity;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,11 @@ namespace BlazorCashier.Client.Services
         }
 
 
-        public async Task<(HttpResponseMessage, UserManagerResponse)> AuthenticateUserAsync(string username, string password)
+        public async Task<(HttpResponseMessage, IdentityApiResponse)> AuthenticateUserAsync(string email, string password)
         {
-            var response = await ApiClient.PostAsync<UserManagerResponse>($"{BaseUrl}/auth/login", new LoginRequest
+            var response = await ApiClient.PostAsync<IdentityApiResponse>($"{BaseUrl}/auth/login", new LoginRequest
             {
-                Email = username,
+                Email = email,
                 Password = password
             });
 

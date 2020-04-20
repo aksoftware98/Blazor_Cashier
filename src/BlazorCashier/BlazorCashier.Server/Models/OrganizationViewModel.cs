@@ -77,7 +77,7 @@ namespace BlazorCashier.Server.Models
                 ConfirmPassword = ConfirmPassword,
                 FinancialNumber = FinancialNumber,
                 Country = new Shared.Domain.CountryDetail { Id = CountryId },
-                Currency = new Shared.Domain.CurrencyDetail { Id = CountryId }
+                Currency = new Shared.Domain.CurrencyDetail { Id = CurrencyId }
             };
         }
     }

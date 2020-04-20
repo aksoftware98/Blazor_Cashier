@@ -1,8 +1,21 @@
-﻿@layout AuthenticationLayout
-@page "/"
+﻿@page "/"
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+<AuthorizeView>
+    <div class="row">
+        <h3>@context.User.Identity.Name</h3>
+        <div class="col-6">
+            <ul>
+                @foreach (var item in context.User.Claims)
+                {
+                    <li> @item.Type - @item.Value</li>
+                }
+            </ul>
+        </div>
+    </div>
+</AuthorizeView>

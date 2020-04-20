@@ -39,21 +39,6 @@ namespace BlazorCashier.Server.Controllers
 
         #region Actions
 
-        [Route("api/auth/login")]
-        [HttpPost]
-        public async Task<IActionResult> Login([FromBody]LoginRequest request)
-        {
-            if (!ModelState.IsValid) return BadRequest();
-
-            var loginResponse = await _userService.LoginAsync(request);
-
-            return loginResponse.IsSuccess switch
-            {
-                false => BadRequest(new IdentityApiResponse(loginResponse.Error)),
-                true => Ok(loginResponse)
-            };
-        }
-
         [HttpGet]
         public async Task<IActionResult> Register()
         {
