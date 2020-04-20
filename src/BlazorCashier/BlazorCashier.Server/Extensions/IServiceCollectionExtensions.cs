@@ -5,6 +5,7 @@ using BlazorCashier.Server.Services;
 using BlazorCashier.Services;
 using BlazorCashier.Services.Account;
 using BlazorCashier.Services.Common;
+using BlazorCashier.Services.Items;
 using BlazorCashier.Services.Organizations;
 using BlazorCashier.Services.Vendors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -79,6 +80,7 @@ namespace BlazorCashier.Server.Extensions
             services.AddScoped<ICurrencyService, CurrencyService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IVendorService, VendorService>();
+            services.AddScoped<IItemService, ItemService>();
             services.AddScoped<IWebHostEnvironmentProvider, WebHostEnvironmentProvider>();
 
             return services;

@@ -50,19 +50,19 @@ namespace BlazorCashier.Services.Vendors
 
             var newVendor = new Vendor
             {
-                FirstName = vendorDetail.FirstName,
-                LastName = vendorDetail.LastName,
-                Email = vendorDetail.Email,
-                Address1 = vendorDetail.Address1,
-                Address2 = vendorDetail.Address2,
-                Note = vendorDetail.Note,
-                City = vendorDetail.City,
+                FirstName = vendorDetail.FirstName.Trim(),
+                LastName = vendorDetail.LastName.Trim(),
+                Email = vendorDetail.Email.Trim(),
+                Address1 = vendorDetail.Address1.Trim(),
+                Address2 = vendorDetail.Address2.Trim(),
+                Note = vendorDetail.Note.Trim(),
+                City = vendorDetail.City.Trim(),
                 CountryId = country.Id,
                 CreatedById = currentUserId,
                 ModifiedById = currentUserId,
-                Website = vendorDetail.Website,
-                Telephone = vendorDetail.Telephone,
-                Phone = vendorDetail.Phone,
+                Website = vendorDetail.Website.Trim(),
+                Telephone = vendorDetail.Telephone.Trim(),
+                Phone = vendorDetail.Phone.Trim(),
                 OrganizationId = vendorDetail.OrganizationId
             };
 
