@@ -11,9 +11,10 @@ namespace BlazorCashier.Server.Infrastructure
         /// Default constructor
         /// </summary>
         public WebHostEnvironmentProvider(IWebHostEnvironment env)
-            => (WebRootPath, ContentRootPath) 
-             = (env.WebRootPath, env.ContentRootPath);
-
+        {
+            WebRootPath = env.WebRootPath;
+            ContentRootPath = env.ContentRootPath;
+        }
         #endregion
 
         #region Public Properties

@@ -1,0 +1,7 @@
+﻿<div class="lds-roller @cssClass"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+@code {
+    [Parameter] public bool IsVisible { get; set; }
+
+    string cssClass => IsVisible ? null : "hidden"; 
+}

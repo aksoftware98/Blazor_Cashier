@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BlazorCashier.Server.Extensions;
+using BlazorCashier.Server.Services;
 
 namespace BlazorCashier.Server
 {
@@ -31,6 +32,10 @@ namespace BlazorCashier.Server
             // Add application services
             services.AddApplicationServices();
 
+            services.AddCorsPolicy();
+
+            services.AddScoped<UserService>(); 
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -53,6 +58,8 @@ namespace BlazorCashier.Server
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
