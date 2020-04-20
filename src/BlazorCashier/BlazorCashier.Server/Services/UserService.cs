@@ -1,5 +1,4 @@
-﻿using BlazorCashier.Models.Data;
-using BlazorCashier.Models.Identity;
+﻿using BlazorCashier.Models.Identity;
 using BlazorCashier.Server.Extensions;
 using BlazorCashier.Services.Account;
 using BlazorCashier.Shared;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlazorCashier.Server.Services
@@ -17,17 +15,13 @@ namespace BlazorCashier.Server.Services
     {
         private UserManager<ApplicationUser> _userManger;
         private IConfiguration _configuration;
-        private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _env;
-        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public UserService(UserManager<ApplicationUser> userManager, IConfiguration configuration, ApplicationDbContext db, IWebHostEnvironment env, SignInManager<ApplicationUser> signInManager)
+        public UserService(UserManager<ApplicationUser> userManager, IConfiguration configuration, IWebHostEnvironment env)
         {
             _userManger = userManager;
             _configuration = configuration;
-            _db = db;
             _env = env;
-            _signInManager = signInManager;
         }
 
         //public async Task<UserManagerResponse> RegisterUserAsync(RegisterRequest model, string organizationId, string userId)
@@ -107,9 +101,11 @@ namespace BlazorCashier.Server.Services
 
             string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return new IdentityApiResponse(
-                tokenAsString, 
-                token.ValidTo);
+            return new IdentityApiResponse
+            {
+                AccessToken = tokenAsString,
+                 ExpireDate = token.ValidTo
+            };  
         }
     }
 }

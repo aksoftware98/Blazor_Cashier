@@ -1,4 +1,5 @@
-﻿using BlazorCashier.Shared;
+﻿using BlazorCashier.Models.Identity;
+using BlazorCashier.Shared;
 using BlazorCashier.Shared.Identity;
 using System.Threading.Tasks;
 

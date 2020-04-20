@@ -6,9 +6,9 @@ using BlazorCashier.Services;
 using BlazorCashier.Services.Account;
 using BlazorCashier.Services.Common;
 using BlazorCashier.Services.Organizations;
+using BlazorCashier.Services.Vendors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -78,6 +78,7 @@ namespace BlazorCashier.Server.Extensions
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICurrencyService, CurrencyService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IVendorService, VendorService>();
             services.AddScoped<IWebHostEnvironmentProvider, WebHostEnvironmentProvider>();
 
             return services;

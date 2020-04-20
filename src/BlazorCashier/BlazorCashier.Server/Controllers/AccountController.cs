@@ -2,12 +2,10 @@
 using BlazorCashier.Services.Account;
 using BlazorCashier.Services.Common;
 using BlazorCashier.Services.Organizations;
-using BlazorCashier.Shared.Identity;
+using BlazorCashier.Shared.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using BlazorCashier.Shared;
-using BlazorCashier.Shared.Domain;
 
 namespace BlazorCashier.Server.Controllers
 {

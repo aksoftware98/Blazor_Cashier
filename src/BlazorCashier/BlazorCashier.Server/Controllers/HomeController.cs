@@ -1,30 +1,12 @@
-﻿using BlazorCashier.Models.Data;
-using BlazorCashier.Models.Identity;
-using BlazorCashier.Server.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
+﻿using BlazorCashier.Server.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace BlazorCashier.Server.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _db;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IWebHostEnvironment _env; 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IWebHostEnvironment env)
-        {
-            _logger = logger;
-            _db = db;
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _env = env; 
-        }
+        public HomeController() { }
 
         public IActionResult Index()
         {
@@ -37,7 +19,7 @@ namespace BlazorCashier.Server.Controllers
         }
         
         // DONT CALL THIS ACTION 
-        public async Task<IActionResult> HiddenAction()
+        public IActionResult HiddenAction()
         {
             return RedirectToAction("Index"); 
         }

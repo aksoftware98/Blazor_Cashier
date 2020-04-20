@@ -1,27 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BlazorCashier.Server.Services;
+﻿using BlazorCashier.Models.Identity;
 using BlazorCashier.Services.Account;
 using BlazorCashier.Shared;
 using BlazorCashier.Shared.Identity;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BlazorCashier.Server.Controllers.ApiControllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseController
     {
+        #region Private Members
 
         private readonly IUserService _userService;
-        public AuthController(IUserService userService)
+
+        #endregion
+
+        #region Constructors
+
+        public AuthController(
+            UserManager<ApplicationUser> userManager,
+            IUserService userService) : base(userManager)
         {
             _userService = userService;
         }
 
+        #endregion
+
+        #region Endpoints
 
         [Route("login")]
         [HttpPost]
@@ -32,7 +38,9 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
             if (loginResponse.IsSuccess)
                 return Ok(loginResponse);
 
-            return BadRequest(new IdentityApiResponse(loginResponse.Error));
+            return BadRequest(loginResponse);
         }
+
+        #endregion
     }
 }
