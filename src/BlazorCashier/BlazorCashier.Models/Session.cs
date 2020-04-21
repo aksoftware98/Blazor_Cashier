@@ -17,7 +17,10 @@ namespace BlazorCashier.Models
         /// <summary>
         /// Default constructor
         /// </summary>
-        public Session() { }
+        public Session() 
+        {
+            CashierPayments = new List<CashierPayment>();
+        }
 
         #endregion
 

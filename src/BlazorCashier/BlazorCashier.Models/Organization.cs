@@ -14,7 +14,10 @@ namespace BlazorCashier.Models
         /// <summary>
         /// Default constructor
         /// </summary>
-        public Organization() { }
+        public Organization() 
+        {
+            Users = new List<ApplicationUser>();
+        }
 
         #endregion
 
@@ -63,7 +66,7 @@ namespace BlazorCashier.Models
         /// <summary>
         /// The registration date of the organization
         /// </summary>
-        public DateTimeOffset RegistrationDate { get; set; }
+        public DateTime RegistrationDate { get; set; }
 
         /// <summary>
         /// The main website of the organization

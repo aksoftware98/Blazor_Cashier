@@ -1,4 +1,6 @@
-﻿namespace BlazorCashier.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data of a bill item
@@ -29,6 +31,7 @@
         /// <summary>
         /// The price of the bill item
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal Price { get; set; }
 
         /// <summary>

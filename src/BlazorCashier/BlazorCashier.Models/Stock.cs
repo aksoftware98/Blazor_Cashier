@@ -1,4 +1,6 @@
-﻿namespace BlazorCashier.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BlazorCashier.Models
 {
     /// <summary>
     /// Represents the data of a stock
@@ -24,17 +26,19 @@
         /// <summary>
         /// The price of the stock
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal Price { get; set; }
 
         /// <summary>
         /// The selling price of the stock
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal SellingPrice { get; set; }
 
         /// <summary>
         /// The points given when stock is purchased
         /// </summary>
-        public double Points { get; set; }
+        public int Points { get; set; }
 
         /// <summary>
         /// The identifier of the related item

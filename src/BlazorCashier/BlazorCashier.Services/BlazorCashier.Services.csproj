@@ -13,4 +13,8 @@
     <ProjectReference Include="..\BlazorCashier.Shared\BlazorCashier.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Bills\" />
+  </ItemGroup>
+
 </Project>

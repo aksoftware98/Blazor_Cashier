@@ -27,13 +27,13 @@ namespace BlazorCashier.Models
         /// <summary>
         /// The system user identifier who created the current object
         /// </summary>
-        [ForeignKey("CreatedUser")]
+        [ForeignKey(nameof(CreatedUser))]
         public string CreatedById { get; set; }
 
         /// <summary>
         /// The system user identifier who modified the current object
         /// </summary>
-        [ForeignKey("ModifiedUser")]
+        [ForeignKey(nameof(ModifiedUser))]
         public string ModifiedById { get; set; }
 
         #endregion

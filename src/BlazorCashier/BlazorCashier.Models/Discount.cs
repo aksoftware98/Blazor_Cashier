@@ -30,12 +30,12 @@ namespace BlazorCashier.Models
         /// <summary>
         /// The start date of the discount
         /// </summary>
-        public DateTimeOffset StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         /// <summary>
         /// The end date of the discount
         /// </summary>
-        public DateTimeOffset EndDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         /// <summary>
         /// The value of the discount

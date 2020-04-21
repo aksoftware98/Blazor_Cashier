@@ -41,6 +41,9 @@ namespace BlazorCashier.Models
         /// </summary>
         public string Email { get; set; }
 
+        /// <summary>
+        /// The related country identifier
+        /// </summary>
         public string CountryId { get; set; }
 
         /// <summary>

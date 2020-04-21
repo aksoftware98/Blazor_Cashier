@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorCashier.Models
 {
@@ -29,6 +30,7 @@ namespace BlazorCashier.Models
         /// <summary>
         /// The total bill value
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal Total { get; set; }
 
         /// <summary>

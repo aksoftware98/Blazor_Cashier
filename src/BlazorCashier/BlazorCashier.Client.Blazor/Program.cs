@@ -20,7 +20,7 @@ namespace BlazorCashier.Client.Blazor
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddBaseAddressHttpClient();
-            builder.Services.AddDevExpressBlazor();
+            //builder.Services.AddDevExpressBlazor();
             builder.Services.AddBlazoredLocalStorage();
 
             builder.Services.AddOptions();

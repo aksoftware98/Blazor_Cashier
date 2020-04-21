@@ -39,7 +39,7 @@ namespace BlazorCashier.Models
         /// <summary>
         /// The discount applied to the <see cref="Stock"/> related if there is any
         /// </summary>
-        public int Discount { get; set; }
+        public float Discount { get; set; }
 
         /// <summary>
         /// The identifier of the related invoice
