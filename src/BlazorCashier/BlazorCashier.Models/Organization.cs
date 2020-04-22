@@ -78,7 +78,20 @@ namespace BlazorCashier.Models
         /// </summary>
         public string FinancialNumber { get; set; }
 
+        /// <summary>
+        /// The related currency identifier
+        /// </summary>
         public string CurrencyId { get; set; }
+
+        /// <summary>
+        /// Last bill number made for this organization
+        /// </summary>
+        public int LastBillNumber { get; set; }
+
+        /// <summary>
+        /// Last invoice number made for this organization
+        /// </summary>
+        public int LastInvoiceNumber { get; set; }
 
         #endregion
 

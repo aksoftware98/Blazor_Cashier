@@ -42,7 +42,7 @@ namespace BlazorCashier.Services.Stocks
                 throw new ArgumentNullException(nameof(stockDetail));
 
             // Check the item
-            var item = await _itemRepository.GetByIdAsync(stockDetail.Item.Id);
+            var item = await _itemRepository.GetByIdAsync(stockDetail.Item?.Id);
 
             if (item is null)
                 return new EntityApiResponse<StockDetail>(error: "Item does not exist");

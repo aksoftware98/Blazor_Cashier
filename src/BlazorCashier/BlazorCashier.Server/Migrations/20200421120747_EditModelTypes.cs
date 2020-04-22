@@ -7,15 +7,6 @@ namespace BlazorCashier.Server.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DeleteData(
-            //    table: "Countries",
-            //    keyColumn: "Id",
-            //    keyValue: "7cd2931e-1927-4a90-b8d7-c143ec9f47af");
-
-            //migrationBuilder.DeleteData(
-            //    table: "Currencies",
-            //    keyColumn: "Id",
-            //    keyValue: "f9703357-0fe2-4b83-9aac-3f98b6e4e952");
 
             migrationBuilder.AlterColumn<decimal>(
                 name: "SellingPrice",
