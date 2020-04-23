@@ -7,6 +7,7 @@ using BlazorCashier.Services.Account;
 using BlazorCashier.Services.Bills;
 using BlazorCashier.Services.Common;
 using BlazorCashier.Services.Customers;
+using BlazorCashier.Services.Discounts;
 using BlazorCashier.Services.Items;
 using BlazorCashier.Services.Organizations;
 using BlazorCashier.Services.Stocks;
@@ -87,6 +88,7 @@ namespace BlazorCashier.Server.Extensions
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<IBillService, BillService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IDiscountService, DiscountService>();
             services.AddScoped<IWebHostEnvironmentProvider, WebHostEnvironmentProvider>();
 
             return services;

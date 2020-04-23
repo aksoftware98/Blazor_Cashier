@@ -40,7 +40,7 @@ namespace BlazorCashier.Models
         /// <summary>
         /// The value of the discount
         /// </summary>
-        public int Value { get; set; }
+        public float Value { get; set; }
 
         #endregion
 
