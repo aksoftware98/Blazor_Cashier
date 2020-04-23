@@ -34,8 +34,8 @@ namespace BlazorCashier.Shared.Domain
             Email = org.Email;
             Website = org.Website;
             FinancialNumber = org.FinancialNumber;
-            Country = new CountryDetail(org.Country.Id, org.Country.Code, org.Country.Name);
-            Currency = new CurrencyDetail(org.Currency.Id, org.Currency.Code);
+            Country = new CountryDetail(org.Country);
+            Currency = new CurrencyDetail(org.Currency);
         }
     }
 }

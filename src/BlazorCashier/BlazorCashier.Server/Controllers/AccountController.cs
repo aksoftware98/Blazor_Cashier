@@ -68,8 +68,8 @@ namespace BlazorCashier.Server.Controllers
 
         public async Task<OrganizationViewModel> InitializeViewModel(OrganizationViewModel viewModel)
         {
-            viewModel.Countries = (await _countryService.GetAllCountriesAsync()).Entities.Select(c => new CountryDetail(c.Id, c.Code, c.Name));
-            viewModel.Currencies = (await _currencyService.GetAllCurrenciesAsync()).Entities.Select(c => new CurrencyDetail(c.Id, c.Code));
+            viewModel.Countries = (await _countryService.GetAllCountriesAsync()).Entities.Select(c => new CountryDetail(c));
+            viewModel.Currencies = (await _currencyService.GetAllCurrenciesAsync()).Entities.Select(c => new CurrencyDetail(c));
             return viewModel;
         }
 

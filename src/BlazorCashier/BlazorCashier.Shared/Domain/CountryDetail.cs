@@ -1,4 +1,6 @@
-﻿namespace BlazorCashier.Shared.Domain
+﻿using BlazorCashier.Models;
+
+namespace BlazorCashier.Shared.Domain
 {
     public class CountryDetail
     {
@@ -6,11 +8,11 @@
         public string Code { get; set; }
         public string Name { get; set; }
 
-        public CountryDetail(string id, string code, string name)
+        public CountryDetail(Country country)
         {
-            Id = id;
-            Code = code;
-            Name = name;
+            Id = country.Id;
+            Code = country.Code;
+            Name = country.Name;
         }
 
         public CountryDetail()
