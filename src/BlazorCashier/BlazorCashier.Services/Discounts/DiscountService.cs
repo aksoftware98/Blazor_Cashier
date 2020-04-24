@@ -146,11 +146,6 @@ namespace BlazorCashier.Services.Discounts
             if (discount is null)
                 return new EntityApiResponse<DiscountDetail>(error: "Discount does not exist");
 
-            var org = await _orgRepository.GetByIdAsync(discountDetail.OrganizationId);
-
-            if (org is null)
-                return new EntityApiResponse<DiscountDetail>(error: "Organization does not exist");
-
             // Delete the current items for the discount
             await _discountItemRepository.DeleteAsync(discount.DiscountItems);
 
@@ -167,8 +162,7 @@ namespace BlazorCashier.Services.Discounts
                     StockId = stock.Id,
                     DiscountId = discount.Id,
                     CreatedById = currentUserId,
-                    ModifiedById = currentUserId,
-                    OrganizationId = org.Id
+                    ModifiedById = currentUserId
                 };
 
                 await _discountItemRepository.InsertAsync(newDiscountItem);

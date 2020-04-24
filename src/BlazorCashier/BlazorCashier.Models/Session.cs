@@ -1,8 +1,6 @@
 ﻿using BlazorCashier.Models.Identity;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorCashier.Models
@@ -66,7 +64,7 @@ namespace BlazorCashier.Models
 
         /// <summary>
         /// The identifier of the user related to the current session
-        /// </summary>UserId
+        /// </summary>
         public string UserId { get; set; }
 
         #endregion

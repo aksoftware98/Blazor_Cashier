@@ -62,11 +62,6 @@ namespace BlazorCashier.Services.Organizations
             if (currency == null) 
                 return Error("Currency does not exist");
 
-            var userWithSameEmail = await _userManager.FindByEmailAsync(orgDetail.Email);
-
-            if (userWithSameEmail != null) 
-                return Error("Email already taken");
-
             // Add the organization
             var org = new Organization
             {
@@ -93,7 +88,7 @@ namespace BlazorCashier.Services.Organizations
                 LastName = "Admin",
                 Email = orgDetail.Email,
                 UserName = orgDetail.Email,
-                ProfilePicture = $"{_hostProvider.WebRootPath.Replace("\\\\", "/")}/Images/Users/default.png",
+                ProfilePicture = $"{_hostProvider.WebRootPath.Replace("\\", "/")}/Images/Users/default.png",
                 OrganizationId = org.Id
             };
 
@@ -108,7 +103,7 @@ namespace BlazorCashier.Services.Organizations
                 return Error(createUserResult.Errors.Select(e => e.Description).AllInOne());
             }
 
-            await _userManager.AddToRoleAsync(user, "Owner");
+            await _userManager.AddToRoleAsync(user, Roles.Owner);
 
             return new EntityApiResponse<Organization>(entity: org);
         }
@@ -120,9 +115,6 @@ namespace BlazorCashier.Services.Organizations
         /// <returns>Response containing the organization details</returns>
         public async Task<EntityApiResponse<OrganizationDetail>> GetOrganizationDetailsAsync(string organizationId)
         {
-            if (string.IsNullOrEmpty(organizationId))
-                throw new ArgumentNullException(nameof(organizationId));
-
             var org = await _orgRepository.GetByIdAsync(organizationId);
 
             if (org is null)

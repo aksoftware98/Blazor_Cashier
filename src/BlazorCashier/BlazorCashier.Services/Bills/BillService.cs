@@ -189,11 +189,6 @@ namespace BlazorCashier.Services.Bills
             if (vendor is null)
                 return new EntityApiResponse<BillDetail>(error: "Vendor does not exist");
 
-            var org = await _orgRepository.GetByIdAsync(billDetail.organizationId);
-
-            if (org is null)
-                return new EntityApiResponse<BillDetail>(error: "Organization does not exist");
-
             // Add the quantities of the current bill items to the related stocks
 
             foreach (var item in bill.BillItems)
@@ -227,7 +222,6 @@ namespace BlazorCashier.Services.Bills
                     Price = item.Price,
                     Description = item.Description?.Trim(),
                     StockId = stock.Id,
-                    OrganizationId = org.Id,
                     CreatedById = currentUseId,
                     ModifiedById = currentUseId,
                     BillId = bill.Id

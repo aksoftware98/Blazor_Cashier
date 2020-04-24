@@ -4,14 +4,16 @@ using BlazorCashier.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlazorCashier.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200423124048_EditEmployeeTable")]
+    partial class EditEmployeeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,11 +193,11 @@ namespace BlazorCashier.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1f9e24e2-6cd1-4a47-9625-8f7cb8f57a80",
+                            Id = "1959fca2-5ab0-45ab-93cd-ffb29f831400",
                             Code = "LB",
-                            CreatedDate = new DateTimeOffset(new DateTime(2020, 4, 24, 7, 35, 54, 163, DateTimeKind.Unspecified).AddTicks(8362), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2020, 4, 23, 12, 40, 48, 35, DateTimeKind.Unspecified).AddTicks(7338), new TimeSpan(0, 0, 0, 0, 0)),
                             CultureCode = "ar-LB",
-                            LastModifiedDate = new DateTimeOffset(new DateTime(2020, 4, 24, 7, 35, 54, 163, DateTimeKind.Unspecified).AddTicks(8387), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedDate = new DateTimeOffset(new DateTime(2020, 4, 23, 12, 40, 48, 35, DateTimeKind.Unspecified).AddTicks(7366), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "Lebanon"
                         });
                 });
@@ -227,10 +229,10 @@ namespace BlazorCashier.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "34c16105-1b24-4fb3-8cab-96543943fe92",
+                            Id = "b9a1020f-03d3-4699-a0d0-f070e123c001",
                             Code = "USD",
-                            CreatedDate = new DateTimeOffset(new DateTime(2020, 4, 24, 7, 35, 54, 165, DateTimeKind.Unspecified).AddTicks(3630), new TimeSpan(0, 0, 0, 0, 0)),
-                            LastModifiedDate = new DateTimeOffset(new DateTime(2020, 4, 24, 7, 35, 54, 165, DateTimeKind.Unspecified).AddTicks(3645), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2020, 4, 23, 12, 40, 48, 38, DateTimeKind.Unspecified).AddTicks(610), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedDate = new DateTimeOffset(new DateTime(2020, 4, 23, 12, 40, 48, 38, DateTimeKind.Unspecified).AddTicks(635), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "Dollar",
                             Symbol = "$"
                         });

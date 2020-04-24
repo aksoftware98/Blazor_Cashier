@@ -1,4 +1,5 @@
 ﻿using BlazorCashier.Models.Identity;
+using BlazorCashier.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,9 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             return await _userManager.FindByIdAsync(userId);
         }
+
+        protected IActionResult ModelError()
+            => BadRequest(new ApiResponse("Model has some errors"));
 
         #endregion
     }

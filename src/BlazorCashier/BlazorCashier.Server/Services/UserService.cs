@@ -1,4 +1,5 @@
-﻿using BlazorCashier.Models.Identity;
+﻿using BlazorCashier.Models.Extensions;
+using BlazorCashier.Models.Identity;
 using BlazorCashier.Server.Extensions;
 using BlazorCashier.Services.Account;
 using BlazorCashier.Shared;
@@ -6,83 +7,122 @@ using BlazorCashier.Shared.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlazorCashier.Server.Services
 {
     public class UserService : IUserService
     {
+        #region Private Members
+
         private UserManager<ApplicationUser> _userManger;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
 
-        public UserService(UserManager<ApplicationUser> userManager, IConfiguration configuration, IWebHostEnvironment env)
+        #endregion
+
+        #region Constructors
+
+        public UserService(
+            UserManager<ApplicationUser> userManager, 
+            RoleManager<IdentityRole> roleManager,
+            IConfiguration configuration, 
+            IWebHostEnvironment env)
         {
             _userManger = userManager;
+            _roleManager = roleManager;
             _configuration = configuration;
             _env = env;
         }
 
-        //public async Task<UserManagerResponse> RegisterUserAsync(RegisterRequest model, string organizationId, string userId)
-        //{
-        //    if (model == null)
-        //        throw new NullReferenceException("Reigster Model is null");
+        #endregion
 
-        //    if (model.Password != model.ConfirmPassword)
-        //        return new UserManagerResponse
-        //        {
-        //            Message = "Confirm password doesn't match the password",
-        //            IsSuccess = false,
-        //        };
+        #region Public Methods
 
-        //    var identityUser = new ApplicationUser
-        //    {
-        //        Email = model.Email,
-        //        UserName = model.Email,
-        //        FirstName = model.FirstName,
-        //        LastName = model.LastName,
-        //        OrganizationId = organizationId,
-        //        ProfilePicture = "Images/users/default.png",
-        //    };
+        public async Task<ApiResponse> DeleteUserAsync(ApplicationUser user)
+        {
+            var result = await _userManger.DeleteAsync(user);
 
-        //    var result = await _userManger.CreateAsync(identityUser, model.Password);
+            if (!result.Succeeded)
+                return new ApiResponse(result.Errors.Select(error => error.Description).AllInOne());
 
-        //    if (result.Succeeded)
-        //    {
-        //        await _userManger.AddToRoleAsync(identityUser, model.RoleId); 
+            return new ApiResponse();
+        }
 
-        //        var employee = new Employee
-        //        {
-        //            Id = Guid.NewGuid().ToString(),
-        //            Address = model.Address1,
-        //            StreetAddress = model.Address2,
-        //            City = model.City,
-        //            UserId = identityUser.Id,
-        //            BirthDate = model.Birthdate,
-        //            CreatedById = userId,
-        //            ModifiedById = userId,
-        //            Description = model.Description,
-        //            FirstName = model.FirstName,
-        //            LastName = model.LastName,
-        //            OrganizationId = organizationId
-        //        };
+        public async Task<EntityApiResponse<ApplicationUser>> CreateUserAsync(CreateApplicationUser userDetail)
+        {
+            if (userDetail is null)
+                throw new ArgumentNullException(nameof(userDetail));
 
-        //        return new UserManagerResponse
-        //        {
-        //            Message = "User created successfully!",
-        //            IsSuccess = true,
-        //        };
-        //    }
+            var role = await _roleManager.FindByIdAsync(userDetail.RoleId);
 
-        //    return new UserManagerResponse
-        //    {
-        //        Message = "User did not create",
-        //        IsSuccess = false,
-        //        Errors = result.Errors.Select(e => e.Description)
-        //    };
-        //}
-        
+            if (role is null)
+                return new EntityApiResponse<ApplicationUser>(error: "Role does not exist");
+
+            var user = new ApplicationUser
+            {
+                FirstName = userDetail.FirstName,
+                LastName = userDetail.LastName,
+                Email = userDetail.Email,
+                UserName = userDetail.Email,
+                ProfilePicture = userDetail.ProfilePicture,
+                OrganizationId = userDetail.OrganizationId
+            };
+
+            var result = await _userManger.CreateAsync(user, userDetail.Password);
+
+            if (!result.Succeeded)
+                return new EntityApiResponse<ApplicationUser>(error: result.Errors.Select(e => e.Description).AllInOne());
+
+            await _userManger.AddToRoleAsync(user, role.Name);
+
+            return new EntityApiResponse<ApplicationUser>(entity: user);
+        }
+
+        public async Task<EntityApiResponse<ApplicationUser>> UpdateUserAsync(string userId, UpdateApplicationUser userDetail)
+        {
+            if (userDetail is null)
+                throw new ArgumentNullException(nameof(userDetail));
+
+            var user = await _userManger.FindByIdAsync(userId);
+
+            user.FirstName = userDetail.FirstName;
+            user.LastName = userDetail.LastName;
+            user.ProfilePicture = userDetail.ProfilePicture;
+
+            var result = await _userManger.UpdateAsync(user);
+
+            if (!result.Succeeded)
+                return new EntityApiResponse<ApplicationUser>(error: result.Errors.Select(error => error.Description).AllInOne());
+
+            return new EntityApiResponse<ApplicationUser>(entity: user);
+        }
+
+        public async Task<ApiResponse> ChangePasswordForUserAsync(ChangePasswordRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            var user = await _userManger.FindByIdAsync(request.Id);
+
+            if (user is null)
+                return new ApiResponse("User does not exist");
+
+            if (request.NewPassword != request.ConfirmNewPassword)
+                return new ApiResponse("Passwords do not match");
+
+            var result = await _userManger.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+
+            if (!result.Succeeded)
+                return new ApiResponse(result.Errors.Select(error => error.Description).AllInOne());
+
+            return new ApiResponse();
+        }
+
         public async Task<IdentityApiResponse> LoginAsync(LoginRequest request)
         {
             var user = await _userManger.FindByEmailAsync(request.Email);
@@ -107,5 +147,7 @@ namespace BlazorCashier.Server.Services
                  ExpireDate = token.ValidTo
             };  
         }
+
+        #endregion
     }
 }

@@ -75,6 +75,8 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
         [ProducesResponseType(400, Type = typeof(EntityApiResponse<CustomerDetail>))]
         public async Task<IActionResult> Post([FromBody]CustomerDetail customerDetail)
         {
+            if (!ModelState.IsValid) return ModelError();
+
             var user = await GetCurrentUser();
 
             customerDetail.OrganizationId = user.OrganizationId;
@@ -98,6 +100,8 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
         [ProducesResponseType(400, Type = typeof(EntityApiResponse<CustomerDetail>))]
         public async Task<IActionResult> Put([FromBody]CustomerDetail customerDetail)
         {
+            if (!ModelState.IsValid) return ModelError();
+
             var user = await GetCurrentUser();
 
             customerDetail.OrganizationId = user.OrganizationId;

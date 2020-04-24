@@ -145,11 +145,6 @@ namespace BlazorCashier.Services.Customers
             if (customer is null)
                 return new EntityApiResponse<CustomerDetail>(error: "Customer does not exist");
 
-            var org = await _orgRepository.GetByIdAsync(customerDetail.OrganizationId);
-
-            if (org is null)
-                return new EntityApiResponse<CustomerDetail>(error: "Organization does not exist");
-
             var country = await _countryRepository.GetByIdAsync(customerDetail.Country?.Id);
 
             if (country is null)

@@ -1,16 +1,20 @@
 ﻿using BlazorCashier.Models.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorCashier.Models
 {
     public class Employee : OrganizationRelatedEntity
     {
+        #region Constructors
 
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public Employee() { }
+
+        #endregion
+
+        #region Public Properties
+
         public string City { get; set; }
         public string StreetAddress { get; set; }
         public string Address { get; set; }
@@ -19,9 +23,15 @@ namespace BlazorCashier.Models
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 
-       public virtual ApplicationUser User { get; set; }
-
+        [ForeignKey(nameof(User))]
         public string UserId { get; set; }
- 
+
+        #endregion
+
+        #region Navigation Properties
+
+        public virtual ApplicationUser User { get; set; }
+
+        #endregion
     }
 }

@@ -40,8 +40,6 @@ namespace BlazorCashier.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Register()
         {
-            var countries = await _countryService.GetAllCountriesAsync();
-            var currencies = await _currencyService.GetAllCurrenciesAsync();
             return View(await InitializeViewModel(new OrganizationViewModel()));
         }
 

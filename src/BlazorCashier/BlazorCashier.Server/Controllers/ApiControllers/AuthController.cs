@@ -31,6 +31,8 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
 
         [Route("login")]
         [HttpPost]
+        [ProducesResponseType(200, Type = typeof(IdentityApiResponse))]
+        [ProducesResponseType(400, Type = typeof(IdentityApiResponse))]
         public async Task<IActionResult> Login([FromBody]LoginRequest request)
         {
             var loginResponse = await _userService.LoginAsync(request);
@@ -40,6 +42,22 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
 
             return BadRequest(loginResponse);
         }
+
+        //[Route("changepassword")]
+        //[HttpPut]
+        //[ProducesResponseType(200, Type = typeof(ApiResponse))]
+        //[ProducesResponseType(400, Type = typeof(ApiResponse))]
+        //public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
+        //{
+        //    if (!ModelState.IsValid) return ModelError();
+
+        //    var response = await _userService.ChangePasswordForUserAsync(request);
+
+        //    if (!response.IsSuccess)
+        //        return BadRequest(response);
+
+        //    return Ok(response);
+        //}
 
         #endregion
     }

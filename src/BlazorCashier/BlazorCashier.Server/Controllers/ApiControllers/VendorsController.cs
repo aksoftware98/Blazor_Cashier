@@ -74,7 +74,7 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
         [HttpPost]
         public async Task<IActionResult> Post(VendorDetail vendorDetail)
         {
-            if (!ModelState.IsValid) return BadRequest("Model has some errors");
+            if (!ModelState.IsValid) return ModelError();
 
             var user = await GetCurrentUser();
             vendorDetail.OrganizationId = user.OrganizationId;
@@ -96,7 +96,7 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
         [HttpPut]
         public async Task<IActionResult> Put(VendorDetail vendorDetail)
         {
-            if (!ModelState.IsValid) return BadRequest("Model has some errors");
+            if (!ModelState.IsValid) return ModelError();
 
             var user = await GetCurrentUser();
 

@@ -77,8 +77,10 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
         [ProducesResponseType(200, Type = typeof(EntityApiResponse<StockDetail>))]
         [ProducesResponseType(400, Type = typeof(EntityApiResponse<StockDetail>))]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]StockDetail stockDetail) 
+        public async Task<IActionResult> Post([FromBody]StockDetail stockDetail)
         {
+            if (!ModelState.IsValid) return ModelError();
+
             var user = await GetCurrentUser();
 
             stockDetail.OrganiationId = user.OrganizationId;
@@ -100,8 +102,10 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
         [ProducesResponseType(200, Type = typeof(EntityApiResponse<StockDetail>))]
         [ProducesResponseType(400, Type = typeof(EntityApiResponse<StockDetail>))]
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]StockDetail stockDetail) 
+        public async Task<IActionResult> Put([FromBody]StockDetail stockDetail)
         {
+            if (!ModelState.IsValid) return ModelError();
+
             var user = await GetCurrentUser();
 
             stockDetail.OrganiationId = user.OrganizationId;
