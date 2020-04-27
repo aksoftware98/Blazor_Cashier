@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BlazorCashier.Server.Extensions
 {
-    public static class ModelStateExtensions
+    public static class ModelStateDictionaryExtensions
     {
         public static string ErrorsAllInOne(this ModelStateDictionary modelState)
             => modelState.Values.SelectMany(v => v.Errors)

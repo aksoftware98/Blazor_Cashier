@@ -8,7 +8,7 @@ namespace BlazorCashier.Models
     /// <summary>
     /// Represents the data of a session
     /// </summary>
-    public class Session : OrganizationRelatedEntity
+    public class Session : OrganizationRelatedEntity, IComparable<Session>
     {
         #region Constructors
 
@@ -65,6 +65,7 @@ namespace BlazorCashier.Models
         /// <summary>
         /// The identifier of the user related to the current session
         /// </summary>
+        [ForeignKey(nameof(User))]
         public string UserId { get; set; }
 
         #endregion
@@ -80,6 +81,15 @@ namespace BlazorCashier.Models
         /// The related cashier payments
         /// </summary>
         public virtual ICollection<CashierPayment> CashierPayments { get; set; }
+
+        #endregion
+
+        #region Public Methods
+
+        public int CompareTo(Session session)
+        {
+            return Id.CompareTo(session.Id);
+        }
 
         #endregion
     }

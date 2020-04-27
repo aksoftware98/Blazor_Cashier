@@ -11,6 +11,7 @@ using BlazorCashier.Services.Discounts;
 using BlazorCashier.Services.Employees;
 using BlazorCashier.Services.Items;
 using BlazorCashier.Services.Organizations;
+using BlazorCashier.Services.Sessions;
 using BlazorCashier.Services.Stocks;
 using BlazorCashier.Services.Vendors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -92,6 +93,7 @@ namespace BlazorCashier.Server.Extensions
             services.AddScoped<IDiscountService, DiscountService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<ISettings, Settings>();
+            services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<IWebHostEnvironmentProvider, WebHostEnvironmentProvider>();
 
             return services;

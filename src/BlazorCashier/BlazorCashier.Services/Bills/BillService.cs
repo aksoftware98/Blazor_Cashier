@@ -5,6 +5,7 @@ using BlazorCashier.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace BlazorCashier.Services.Bills
@@ -47,9 +48,7 @@ namespace BlazorCashier.Services.Bills
                 throw new ArgumentNullException(nameof(billDetail));
 
             if (billDetail.BillItems is null || billDetail.BillItems.Count < 1)
-            {
                 return new EntityApiResponse<BillDetail>(error: "Bill has no items");
-            }
 
             if (billDetail.Vendor is null)
                 return new EntityApiResponse<BillDetail>(error: "A vendor is required");
@@ -103,7 +102,9 @@ namespace BlazorCashier.Services.Bills
 
                 await _billItemRepository.InsertAsync(billItem);
 
-                stock.Quantity -= billItem.Quantity;
+                stock.Quantity += billItem.Quantity;
+                stock.LastModifiedDate = DateTime.UtcNow;
+                stock.ModifiedById = currentUseId;
 
                 await _stockRepository.UpdateAsync(stock);
             }
@@ -132,7 +133,7 @@ namespace BlazorCashier.Services.Bills
                 if (stock is null)
                     continue;
 
-                stock.Quantity += billItem.Quantity;
+                stock.Quantity -= billItem.Quantity;
 
                 await _stockRepository.UpdateAsync(stock);
             }
@@ -168,7 +169,7 @@ namespace BlazorCashier.Services.Bills
             return new EntitiesApiResponse<BillDetail>(entities: billsDetails);
         }
 
-        public async Task<EntityApiResponse<BillDetail>> UpdateBillAsync(BillDetail billDetail, string currentUseId)
+        public async Task<EntityApiResponse<BillDetail>> UpdateBillAsync(BillDetail billDetail, string currentUserId)
         {
             if (billDetail is null)
                 throw new ArgumentNullException(nameof(billDetail));
@@ -189,23 +190,29 @@ namespace BlazorCashier.Services.Bills
             if (vendor is null)
                 return new EntityApiResponse<BillDetail>(error: "Vendor does not exist");
 
-            // Add the quantities of the current bill items to the related stocks
+            var oldBillItems = bill.BillItems;
 
-            foreach (var item in bill.BillItems)
+            var itemsToDelete = oldBillItems.Where(item => !billDetail.BillItems.Any(billItem => billItem.Id == item.Id));
+
+            // Remove the quantities of the item deleted from the related stocks
+
+            foreach (var item in itemsToDelete)
             {
                 var stock = await _stockRepository.GetByIdAsync(item.Stock.Id);
 
-                stock.Quantity += item.Quantity;
+                stock.Quantity -= item.Quantity;
+                stock.LastModifiedDate = DateTime.UtcNow;
+                stock.ModifiedById = currentUserId;
 
                 await _stockRepository.UpdateAsync(stock);
             }
 
-            // Delete all current billItems
-            await _billItemRepository.DeleteAsync(bill.BillItems);
+            // Delete billItems to be deleted
+            await _billItemRepository.DeleteAsync(itemsToDelete);
             
             var totalPrice = 0m;
 
-            // Re-add new items to the bill
+            // Add new items to the bill and update ones that have been updated
             foreach (var item in billDetail.BillItems)
             {
                 if (item.Stock is null || item.Quantity < 1)
@@ -216,28 +223,48 @@ namespace BlazorCashier.Services.Bills
                 if (stock is null)
                     continue;
 
-                var billItem = new BillItem
+                BillItem billItem;
+
+                if (string.IsNullOrEmpty(item.Id))
                 {
-                    Quantity = item.Quantity,
-                    Price = item.Price,
-                    Description = item.Description?.Trim(),
-                    StockId = stock.Id,
-                    CreatedById = currentUseId,
-                    ModifiedById = currentUseId,
-                    BillId = bill.Id
-                };
+                    billItem = new BillItem
+                    {
+                        Quantity = item.Quantity,
+                        Price = item.Price,
+                        Description = item.Description?.Trim(),
+                        StockId = stock.Id,
+                        CreatedById = currentUserId,
+                        ModifiedById = currentUserId,
+                        BillId = bill.Id
+                    };
 
-                await _billItemRepository.InsertAsync(billItem);
+                    await _billItemRepository.InsertAsync(billItem);
+                }
+                else
+                {
+                    billItem = oldBillItems.FirstOrDefault(i => i.Id == item.Id);
 
-                stock.Quantity -= billItem.Quantity;
+                    if (billItem is null)
+                        continue;
+
+                    billItem.Quantity = item.Quantity;
+                    billItem.Price = item.Price;
+                    billItem.Description = item.Description?.Trim();
+                    billItem.StockId = stock.Id;
+                    billItem.ModifiedById = currentUserId;
+                    billItem.LastModifiedDate = DateTime.UtcNow;
+
+                    await _billItemRepository.UpdateAsync(billItem);
+                }
+
+                stock.Quantity += billItem.Quantity;
+                totalPrice += billItem.Price * billItem.Quantity;
 
                 await _stockRepository.UpdateAsync(stock);
-
-                totalPrice += billItem.Price * billItem.Quantity;
             }
 
             bill.LastModifiedDate = DateTime.UtcNow;
-            bill.ModifiedById = currentUseId;
+            bill.ModifiedById = currentUserId;
             bill.Total = totalPrice;
             bill.Note = billDetail.Note?.Trim();
             bill.VendorId = vendor.Id;

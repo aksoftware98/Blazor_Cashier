@@ -16,5 +16,6 @@
         public static string Auth = $"{Base}/auth";
         public static string Login = $"{Auth}/login";
         public static string ChangePassword = $"{Auth}/changepassword";
+        public static string WorkSchedule = $"{Sessions}/workschedule";
     }
 }
