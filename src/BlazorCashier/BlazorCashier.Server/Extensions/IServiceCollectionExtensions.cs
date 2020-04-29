@@ -9,6 +9,7 @@ using BlazorCashier.Services.Common;
 using BlazorCashier.Services.Customers;
 using BlazorCashier.Services.Discounts;
 using BlazorCashier.Services.Employees;
+using BlazorCashier.Services.Invoices;
 using BlazorCashier.Services.Items;
 using BlazorCashier.Services.Organizations;
 using BlazorCashier.Services.Sessions;
@@ -94,6 +95,7 @@ namespace BlazorCashier.Server.Extensions
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<ISettings, Settings>();
             services.AddScoped<ISessionService, SessionService>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
             services.AddScoped<IWebHostEnvironmentProvider, WebHostEnvironmentProvider>();
 
             return services;

@@ -10,6 +10,6 @@ namespace BlazorCashier.Services.Bills
         Task<EntityApiResponse<BillDetail>> GetBillDetailsAsync(string billId);
         Task<EntityApiResponse<BillDetail>> CreateBillAsync(BillDetail billDetail, string currentUseId);
         Task<EntityApiResponse<BillDetail>> UpdateBillAsync(BillDetail billDetail, string currentUseId);
-        Task<ApiResponse> DeleteBillAsync(string billId);
+        Task<ApiResponse> DeleteBillAsync(string billId, string currentUserId);
     }
 }

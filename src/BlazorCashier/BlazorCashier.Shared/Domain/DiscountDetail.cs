@@ -23,6 +23,11 @@ namespace BlazorCashier.Shared.Domain
 
         }
 
+        public DiscountDetail(float value)
+        {
+            Value = value;
+        }
+
         public DiscountDetail(Discount discount)
         {
             Id = discount.Id;

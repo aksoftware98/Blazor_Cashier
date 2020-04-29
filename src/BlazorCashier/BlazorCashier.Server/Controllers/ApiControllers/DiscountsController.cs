@@ -64,6 +64,26 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
             return Ok(discountResponse);
         }
 
+        // GET: api/discounts/maxdiscount/fd78na9
+        /// <summary>
+        /// Retrieves the maximum discount for a particular stock if there is any
+        /// </summary>
+        /// <param name="stockId">Id of the stock to retrieve the discount for</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("maxdiscount/{stockId}")]
+        [ProducesResponseType(200, Type = typeof(EntityApiResponse<DiscountDetail>))]
+        [ProducesResponseType(404, Type = typeof(EntityApiResponse<DiscountDetail>))]
+        public async Task<IActionResult> Get(string stockId)
+        {
+            var response = await _discountService.GetMaxDiscountForStockAsync(stockId);
+
+            if (!response.IsSuccess)
+                return NotFound(response);
+
+            return Ok(response);
+        }
+
         // POST: api/discounts
         /// <summary>
         /// Creates a new discount using the passed details

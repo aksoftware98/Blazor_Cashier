@@ -8,6 +8,7 @@ namespace BlazorCashier.Services.Discounts
     {
         Task<EntitiesApiResponse<DiscountDetail>> GetDiscountsForOrganizationAsync(string organizationId);
         Task<EntityApiResponse<DiscountDetail>> GetDiscountDetailsAsync(string discountId);
+        Task<EntityApiResponse<DiscountDetail>> GetMaxDiscountForStockAsync(string stockId);
         Task<EntityApiResponse<DiscountDetail>> CreateDiscountAsync(DiscountDetail discountDetail, string currentUserId);
         Task<EntityApiResponse<DiscountDetail>> UpdateDiscountAsync(DiscountDetail discountDetail, string currentUserId);
         Task<ApiResponse> DeleteDiscountAsync(string discountId);

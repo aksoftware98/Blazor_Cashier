@@ -3,6 +3,8 @@ using BlazorCashier.Models.Data;
 using BlazorCashier.Shared;
 using BlazorCashier.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -113,6 +115,25 @@ namespace BlazorCashier.Services.Discounts
                 return new EntityApiResponse<DiscountDetail>(error: "Discount does not exist");
 
             return new EntityApiResponse<DiscountDetail>(entity: new DiscountDetail(discount));
+        }
+
+        public async Task<EntityApiResponse<DiscountDetail>> GetMaxDiscountForStockAsync(string stockId)
+        {
+            var stock = await _stockRepository.GetByIdAsync(stockId);
+
+            if (stock is null)
+                return new EntityApiResponse<DiscountDetail>(error: "Stock does not exist");
+
+            var now = DateTime.UtcNow;
+
+            var maxDiscount = (from discount in _discountRepository.Table
+                              join item in _discountItemRepository.Table on discount.Id equals item.DiscountId
+                              where item.StockId == stock.Id
+                              orderby discount.Value descending
+                              select discount).FirstOrDefault();
+
+
+            return new EntityApiResponse<DiscountDetail>(entity: maxDiscount == null ? new DiscountDetail(0f) : new DiscountDetail(maxDiscount));
         }
 
         public async Task<EntitiesApiResponse<DiscountDetail>> GetDiscountsForOrganizationAsync(string organizationId)

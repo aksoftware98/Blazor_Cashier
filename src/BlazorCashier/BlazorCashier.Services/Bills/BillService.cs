@@ -5,7 +5,6 @@ using BlazorCashier.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace BlazorCashier.Services.Bills
@@ -118,7 +117,7 @@ namespace BlazorCashier.Services.Bills
 
         }
 
-        public async Task<ApiResponse> DeleteBillAsync(string billId)
+        public async Task<ApiResponse> DeleteBillAsync(string billId, string currentUserId)
         {
             var bill = await _billRepository.GetByIdAsync(billId);
 
@@ -134,6 +133,8 @@ namespace BlazorCashier.Services.Bills
                     continue;
 
                 stock.Quantity -= billItem.Quantity;
+                stock.LastModifiedDate = DateTime.UtcNow;
+                stock.ModifiedById = currentUserId;
 
                 await _stockRepository.UpdateAsync(stock);
             }
@@ -182,6 +183,9 @@ namespace BlazorCashier.Services.Bills
             if (billDetail.BillItems is null || billDetail.BillItems.Count < 1)
                 return new EntityApiResponse<BillDetail>(error: "Bill has not items");
 
+            if (billDetail.BillItems.Any(i => i.Quantity < 1))
+                return new EntityApiResponse<BillDetail>(error: "A item can't have quantity of zero");
+
             if (billDetail.Vendor is null)
                 return new EntityApiResponse<BillDetail>(error: "A vendor is required");
 
@@ -215,10 +219,7 @@ namespace BlazorCashier.Services.Bills
             // Add new items to the bill and update ones that have been updated
             foreach (var item in billDetail.BillItems)
             {
-                if (item.Stock is null || item.Quantity < 1)
-                    continue;
-
-                var stock = await _stockRepository.GetByIdAsync(item.Stock.Id);
+                var stock = await _stockRepository.GetByIdAsync(item.Stock?.Id);
 
                 if (stock is null)
                     continue;
@@ -239,6 +240,7 @@ namespace BlazorCashier.Services.Bills
                     };
 
                     await _billItemRepository.InsertAsync(billItem);
+                    stock.Quantity += billItem.Quantity;
                 }
                 else
                 {
@@ -246,6 +248,8 @@ namespace BlazorCashier.Services.Bills
 
                     if (billItem is null)
                         continue;
+
+                    stock.Quantity += item .Quantity - billItem.Quantity;
 
                     billItem.Quantity = item.Quantity;
                     billItem.Price = item.Price;
@@ -257,9 +261,10 @@ namespace BlazorCashier.Services.Bills
                     await _billItemRepository.UpdateAsync(billItem);
                 }
 
-                stock.Quantity += billItem.Quantity;
                 totalPrice += billItem.Price * billItem.Quantity;
 
+                stock.ModifiedById = currentUserId;
+                stock.LastModifiedDate = DateTime.UtcNow;
                 await _stockRepository.UpdateAsync(stock);
             }
 

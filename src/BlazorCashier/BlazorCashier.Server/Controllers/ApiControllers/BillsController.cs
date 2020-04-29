@@ -128,7 +128,9 @@ namespace BlazorCashier.Server.Controllers.ApiControllers
         [ProducesResponseType(404, Type = typeof(ApiResponse))]
         public async Task<IActionResult> Delete(string billId)
         {
-            var deleteResponse = await _billService.DeleteBillAsync(billId);
+            var user = await GetCurrentUser();
+
+            var deleteResponse = await _billService.DeleteBillAsync(billId, user.Id);
 
             if (!deleteResponse.IsSuccess)
                 return NotFound(deleteResponse);

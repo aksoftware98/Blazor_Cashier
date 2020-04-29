@@ -31,8 +31,8 @@ namespace BlazorCashier.Shared.Domain
                 FirstName = bill.Vendor.FirstName,
                 LastName = bill.Vendor.LastName
             };
-            BillItems = 
-                new List<BillItemDetail>(bill.BillItems.Select(item => new BillItemDetail(item)));
+            BillItems = new List<BillItemDetail>
+                (bill.BillItems.Select(item => new BillItemDetail(item)));
         }
     }
 }

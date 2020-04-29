@@ -45,12 +45,12 @@ namespace BlazorCashier.Models
         public float Discount { get; set; }
 
         /// <summary>
-        /// Indicates whether the invoice is paid by customer's points or not
+        /// Points used to pay the invoice with
         /// </summary>
         public int PaidWithPoints { get; set; }
 
         /// <summary>
-        /// Points used to pay the invoice with
+        /// The points of the invoice
         /// </summary>
         public int Points { get; set; }
 
@@ -74,6 +74,7 @@ namespace BlazorCashier.Models
         public virtual Customer Customer { get; set; }
 
         public virtual ICollection<InvoiceItem> InvoiceItems { get; set; }
+
         #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorCashier.Models
 {
@@ -35,6 +34,11 @@ namespace BlazorCashier.Models
         /// </summary>
         [Column(TypeName = "decimal(8, 2)")]
         public decimal FinalPrice { get; set; }
+
+        /// <summary>
+        /// The quantity of the invoice item
+        /// </summary>
+        public int Quantity { get; set; }
 
         /// <summary>
         /// The discount applied to the <see cref="Stock"/> related if there is any

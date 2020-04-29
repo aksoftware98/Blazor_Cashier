@@ -12,6 +12,7 @@
         public static string Employees = $"{Base}/employees";
         public static string Invoices = $"{Base}/invoices";
         public static string Discounts = $"{Base}/discounts";
+        public static string MaxDiscount = $"{Discounts}/maxdiscount";
         public static string Organizations = $"{Base}/organizations";
         public static string Auth = $"{Base}/auth";
         public static string Login = $"{Auth}/login";
